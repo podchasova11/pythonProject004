@@ -30,7 +30,5 @@ class TestFormRegistration:
 
         submit_button.click()
 
-    def teardown(self):
-        self.driver.quit()
-        print("Выполняюсь после теста")
+
 
