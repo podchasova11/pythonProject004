@@ -29,6 +29,10 @@ class TestFormRegistration:
         password_field.send_keys(password)
 
         submit_button.click()
+        
+            def teardown(self):
+        self.driver.quit()
+        print("Выполняюсь после теста")
 
 
 
