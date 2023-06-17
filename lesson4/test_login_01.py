@@ -32,5 +32,5 @@ class TestFormRegistration:
 
     def teardown(self):
         self.driver.quit()
-        print("Выполняюсь после теста")
+        print("Выполняюсь после всего теста")
 
