@@ -31,6 +31,7 @@ def driver():
     username_field.send_keys("admin")
     password_field.send_keys("admin123")
     submit_button.click()
+    
 
     yield driver
     driver.quit()
