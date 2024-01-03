@@ -31,6 +31,7 @@ class TestDependens:
     @pytest.mark.dependency(depends=["test_post_to_buzz"])
     def test_delete_post(driver):
         driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/buzz/viewBuzz")
+        
 
     # Здесь выполняются действия для удаления поста
 
