@@ -4,6 +4,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 
 
+
 # @pytest.fixture(autouse=True)
 # def browser(request):
 #     service = Service(ChromeDriverManager().install())
