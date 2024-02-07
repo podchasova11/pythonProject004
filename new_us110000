@@ -40,6 +40,7 @@ class TestLearnToTrade:
 
         page_menu = MenuSection(d, link)
         page_menu.menu_education_move_focus(d, cur_language, cur_country)
+
         cur_page_url = page_menu.sub_menu_trend_trading_move_focus_click(d, cur_language)
 
         test_element = MainBannerStartTrading(d, cur_page_url, bid)
