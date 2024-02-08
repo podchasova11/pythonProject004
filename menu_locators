@@ -1,0 +1,4 @@
+
+class MenuUS11LearnToTrade:
+    SUB_MENU_EN_LEARN_TOTRADE = (By.CSS_SELECTOR, '[data-type="nav_id698"]')
+
