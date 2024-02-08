@@ -1,0 +1,19 @@
+    @allure.step(f"{datetime.now()}.   Click 'Learn to trade' menu")
+    def sub_menu_learn_to_trade_move_focus_click(self, d, test_language):
+        sub_menu = list()
+        match test_language:
+            case "": sub_menu = d.find_elements(*MenuUS11LearnToTrade.SUB_MENU_EN_LEARN_TOTRADE)
+
+        if len(sub_menu) == 0:
+            pytest.skip(f"For test language '{test_language}' "
+                        f"the page \"Learn to trade\" doesn't exist on production")
+
+        ActionChains(d) \
+            .move_to_element(sub_menu[0]) \
+            .pause(0.5) \
+            .click() \
+            .perform()
+        print(f"\n\n{datetime.now()}   => Learn to trade menu clicked")
+
+        del sub_menu
+        return d.current_url
