@@ -1,51 +1,3 @@
-import pytest
-import allure
-from datetime import datetime
-from pages.Elements.ButtonStartTradingMainBanner import MainBannerStartTrading
-from pages.Menu.menu import MenuSection
-from pages.common import Common
-from pages.conditions import Conditions
-from src.src import CapitalComPageSrc
-from tests.build_dynamic_arg import build_dynamic_arg_v4
-
-
-@pytest.fixture()
-def cur_time():
-    return str(datetime.now())
-
-@pytest.mark.us_11_00_00
-class TestLearnToTrade:
-    page_conditions = None
-
-    @allure.step("Start test of button [Open an account] on the Main banner")
-    @pytest.mark.test_01
-    def test_01_button_open_an_account(
-            self, worker_id, d, cur_language, cur_country, cur_role, cur_login, cur_password):
-        """
-        Check: Button [Open an account]
-        Language: En. License: FCA.
-        """
-
-        bid = build_dynamic_arg_v4(
-            d, worker_id, cur_language, cur_country, cur_role,
-            "11.00.00", "Learn to trade",
-            ".01", "Testing button [Open an account] on the Main banner 'Learn to trade'")
-
-        Common().check_country_in_list_and_skip_if_not_present(cur_country, ["gb"])
-        Common().check_language_in_list_and_skip_if_not_present(cur_language, [""])
-
-        page_conditions = Conditions(d, "")
-        link = page_conditions.preconditions(
-            d, CapitalComPageSrc.URL, "", cur_language, cur_country, cur_role, cur_login, cur_password)
-
-        page_menu = MenuSection(d, link)
-        page_menu.menu_education_move_focus(d, cur_language, cur_country)
-
-        cur_page_url = page_menu.sub_menu_trend_trading_move_focus_click(d, cur_language)
-
-        test_element = MainBannerStartTrading(d, cur_page_url, bid)
-        test_element.full_test_with_tpi(d, cur_language, cur_country, cur_role, cur_page_url)
-
 import allure
 import pytest
 
@@ -61,7 +13,7 @@ from src.src import CapitalComPageSrc
 class TestLearnToTrade:
     page_conditions = None
 
-    @allure.step("Start test_11.00.00_03 button [1. Create your account ] in block 'Ready to join a leading broker?'")
+    @allure.step("Start test_11.00.00_03 button [1. Create your account] in block 'Ready to join a leading broker?'")
     @pytest.mark.test_03
     def test_03_create_your_account(
             self, worker_id, d, cur_role, cur_language, cur_country, cur_login, cur_password):
@@ -72,7 +24,7 @@ class TestLearnToTrade:
         bid = build_dynamic_arg_v4(
             d, worker_id, cur_language, cur_country, cur_role,
             "11.00.00", "Learn to trade",
-            ".03", "Testing button [1. Create your account] in block [Ready to join a leading broker?]")
+            "_03", "Testing button [1. Create your account] in block 'Ready to join a leading broker?'")
 
         Common().check_language_in_list_and_skip_if_not_present(cur_language, [''])
         Common().check_country_in_list_and_skip_if_not_present(cur_country, ['gb'])
@@ -83,8 +35,9 @@ class TestLearnToTrade:
 
         menu = MenuSection(d, link)
         link = menu.open_learn_to_trade_menu(d, cur_language, cur_country, link)
-        
-        menu = MenuSection(d, link)
+
+        test_element = BlockStepTrading(d, link, bid)
+        test_element.full_test_with_tpi(d, cur_language, cur_country, cur_role, link)
         link = menu.open_learn_to_trade_risk_management_guide_menu(d, cur_language, cur_country, link)
 
         test_element = BlockStepTrading(d, link, bid)
