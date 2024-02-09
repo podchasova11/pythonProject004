@@ -15,7 +15,6 @@
         return d.current_url
 
 
-
 @allure.step(f"{datetime.now()}.   Click 'Learn to trade' menu")
     def sub_menu_learn_to_trade_move_focus_click(self, d, test_language):
         sub_menu = list()
