@@ -65,4 +65,3 @@ class TestLearnToTrade:
 
         test_element = BlockStepTrading(d, link, bid)
         test_element.full_test_with_tpi(d, cur_language, cur_country, cur_role, link)
-
