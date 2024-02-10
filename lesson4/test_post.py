@@ -23,7 +23,6 @@ class TestDependens:
 
     def test_post_to_buzz(driver):
         driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/buzz/viewBuzz")
-
     # Здесь выполняются действия для выкладывания поста
 
         assert "post_success" in driver.page_source
