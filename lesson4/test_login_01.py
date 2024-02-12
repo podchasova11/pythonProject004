@@ -36,5 +36,3 @@ class TestFormRegistration:
         print("Выполняюсь после всего теста")
         
 
-
-
