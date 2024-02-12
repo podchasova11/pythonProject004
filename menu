@@ -7,7 +7,6 @@
         if not self.current_page_is(link):
             self.link = link
             self.open_page()
-
         self.menu_learn_to_trade_move_focus(d, cur_language, cur_country)
         self.sub_menu_learn_to_trade_move_focus_click(d, cur_language)
 
@@ -35,7 +34,8 @@
         del sub_menu
         return d.current_url
 
-###############################################################################################
+############################################################################################### 
+# 95-110
     @allure.step('Select "Learn to trade" menu')
     def open_learn_to_trade_menu(self, d, cur_language, cur_country, link):
 
