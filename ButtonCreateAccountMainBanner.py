@@ -4,7 +4,6 @@
 @Author  : Mila Podchasova
 """
 
-
 from datetime import datetime
 import pytest
 import allure
