@@ -1,4 +1,5 @@
-    @allure.step("Start test_11.00.00_02 of button [Try demo account] on Main banner")
+
+@allure.step("Start test_11.00.00_02 of button [Try demo account] on Main banner")
     @pytest.mark.test_02
     def test_02_main_banner_try_demo_account_button(
             self, worker_id, d, cur_language, cur_country, cur_role, cur_login, cur_password):
