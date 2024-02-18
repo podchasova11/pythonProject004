@@ -1,0 +1,5 @@
+        menu = MenuSection(d, link)
+        link = menu.open_learn_to_trade_menu(d, cur_language, cur_country, link)
+
+        test_element = MainBannerOpenAnAccount(d, link, bid)
+        test_element.full_test_with_tpi(d, cur_language, cur_country, cur_role, link)
