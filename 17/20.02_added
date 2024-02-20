@@ -18,6 +18,11 @@ from pages.Elements.ButtonCreateAccountInContentBlock import ArticleCreateAccoun
 count = 1
 cur_page_url = ""
 
+
+@pytest.mark.us_11_01_04_00
+class TestSpreadBettingGuidePretest:
+    page_conditions = None
+
 @allure.step("Start test of button [Create your account] in block [Steps trading]")
     @pytest.mark.test_04
     def test_04_block_steps_trading_button_create_your_account(
