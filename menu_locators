@@ -1,4 +1,48 @@
-class MenuUS11LearnToTrade:
-    SUB_MENU_EN_LEARN_TOTRADE = (By.CSS_SELECTOR, '[data-type="nav_id698"]')
+from selenium.webdriver.common.by import By
+
+
+class MenuLanguageAndCountry:
+    MENU_LANGUAGE_AND_COUNTRY = (By.CSS_SELECTOR, "header.cc-header .js-licLangSw")
+    # MENU_LANGUAGE_AND_COUNTRY = (By.CSS_SELECTOR, "header.cc-header .licLangSw__btn")
+    DROP_DOWN_LIST_COUNTRY = (By.CSS_SELECTOR, "header .fieldDropdown")
+    COUNTRIES_SEARCH_INPUT = (By.CSS_SELECTOR, "header .js-countriesSearchInput")
+    COUNTRIES_LIST = (By.CSS_SELECTOR, "header .js-countriesList a")
+
+
+class MenuUS11Education:
+    SUB_MENU_AR_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/ar/learn-to-trade']")
+    SUB_MENU_BG_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/bg/learn-to-trade']")
+    SUB_MENU_CN_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/cn/learn-to-trade']")
+    SUB_MENU_CS_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/cs/learn-to-trade']")
+    SUB_MENU_DA_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/da/learn-to-trade']")
+    SUB_MENU_DE_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/de/learn-to-trade']")
+    SUB_MENU_EL_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/el/learn-to-trade']")
+    # SUB_MENU_EN_GB_LEARN_TO_TRADE = (By.CSS_SELECTOR, "#header a[href='/en-gb/learn']")
+    SUB_MENU_EN_GB_LEARN_TO_TRADE = (By.CSS_SELECTOR, '[data-type="nav_id698"]')
+
+    SUB_MENU_EN_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/learn-to-trade']")
+    SUB_MENU_ES_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/es/learn-to-trade']")
+    SUB_MENU_ET_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/et/learn-to-trade']")
+    SUB_MENU_FI_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/fi/learn-to-trade']")
+    SUB_MENU_FR_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/fr/learn-to-trade']")
+    SUB_MENU_HR_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/hr/learn-to-trade']")
+    SUB_MENU_HU_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/hu/learn-to-trade']")
+    SUB_MENU_ID_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/id/learn-to-trade']")
+    SUB_MENU_IT_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/it/learn-to-trade']")
+    SUB_MENU_LT_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/lt/learn-to-trade']")
+    SUB_MENU_NL_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/nl/learn-to-trade']")
+    SUB_MENU_LV_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/lv/learn-to-trade']")
+    SUB_MENU_PL_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/pl/learn-to-trade']")
+    SUB_MENU_PT_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/pt/learn-to-trade']")
+    SUB_MENU_RO_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/ro/learn-to-trade']")
+    SUB_MENU_RU_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/ru/learn-to-trade']")
+    SUB_MENU_SK_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/sk/learn-to-trade']")
+    SUB_MENU_SL_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/sl/learn-to-trade']")
+    SUB_MENU_SV_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/sv/learn-to-trade']")
+    SUB_MENU_ZH_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/zh/learn-to-trade']")
+    SUB_MENU_TH_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/th/learn-to-trade']")
+    SUB_MENU_VI_LEARN_TO_TRADE = (By.CSS_SELECTOR, ".cc-header a[href='https://capital.com/vi/learn-to-trade']")
+
+
 
 
