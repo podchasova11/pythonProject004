@@ -1,4 +1,5 @@
 
+
     @allure.step(f"{datetime.now()}.   Focus moved to 'Markets' menu")
     def menu_markets_move_focus(self, d, test_language, test_country):
         markets_menu_locator = None
