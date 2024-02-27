@@ -1,0 +1,68 @@
+
+    @allure.step(f"{datetime.now()}.   Focus moved to 'Markets' menu")
+    def menu_markets_move_focus(self, d, test_language, test_country):
+        markets_menu_locator = None
+        if test_language == "" and test_country == "gb":
+            markets_menu_locator = MenuUS01Markets.SUB_MENU_EN_GB_MARKETS
+        else:
+            match test_language:
+                case "":
+                    markets_menu_locator = MenuUS01Markets.SUB_MENU_EN_MARKETS
+                case "ar":
+                    markets_menu_locator = MenuUS01Markets.SUB_MENU_AR_MARKETS
+                case "de":
+                    markets_menu_locator = MenuUS01Markets.SUB_MENU_DE_MARKETS
+                case "el":
+                    markets_menu_locator = MenuUS01Markets.SUB_MENU_EL_MARKETS
+                case "es":
+                    markets_menu_locator = MenuUS01Markets.SUB_MENU_ES_MARKETS
+                case "fr":
+                    markets_menu_locator = MenuUS01Markets.SUB_MENU_FR_MARKETS
+                case "it":
+                    markets_menu_locator = MenuUS01Markets.SUB_MENU_IT_MARKETS
+                case "hu":
+                    markets_menu_locator = MenuUS01Markets.SUB_MENU_HU_MARKETS
+                case "nl":
+                    markets_menu_locator = MenuUS01Markets.SUB_MENU_NL_MARKETS
+                case "pl":
+                    markets_menu_locator = MenuUS01Markets.SUB_MENU_PL_MARKETS
+                case "ro":
+                    markets_menu_locator = MenuUS01Markets.SUB_MENU_RO_MARKETS
+                case "ru":
+                    markets_menu_locator = MenuUS01Markets.SUB_MENU_RU_MARKETS
+                case "zh":
+                    markets_menu_locator = MenuUS01Markets.SUB_MENU_ZH_MARKETS
+                case "cn":
+                    markets_menu_locator = MenuUS01Markets.SUB_MENU_CN_MARKETS
+
+        time.sleep(0.5)
+        menu = d.find_elements(*markets_menu_locator)
+        if len(menu) == 0:
+            print(f"{datetime.now()}   => Markets menu not present")
+            Common().save_current_screenshot(d, "scr_qr")
+            pytest.fail(f"Bug № ??? Markets menu not present for '{test_language}' language")
+        print(f"{datetime.now()}   => Markets menu is present")
+
+        self.driver.execute_script(
+            'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+            menu[0]
+        )
+
+        element = self.element_is_visible(markets_menu_locator, 5)
+        print(f"{datetime.now()}   element = {element}")
+        if not element:
+            print(f"{datetime.now()}   => Markets menu not visible")
+            Common().save_current_screenshot(d, "scr_qr")
+            pytest.fail("Problem. Markets menu not visible")
+        print(f"{datetime.now()}   => Markets menu is visible")
+
+        time.sleep(0.5)
+        menu = d.find_elements(*markets_menu_locator)
+        ActionChains(d) \
+            .move_to_element(menu[0]) \
+            .pause(0.5) \
+            .perform()
+
+        print(f"{datetime.now()}   => Focus moved to Markets menu")
+        del menu
+        del element
