@@ -1,0 +1,16 @@
+class MenuUS01Markets:
+    SUB_MENU_EN_MARKETS = (By.CSS_SELECTOR, '[data-type="nav_id8"]')
+    SUB_MENU_EN_GB_MARKETS = (By.CSS_SELECTOR, '[data-type="nav_id693"]')  # Новая верстка, FCA
+    SUB_MENU_AR_MARKETS = (By.CSS_SELECTOR, '[data-type="nav_id8"]')
+    SUB_MENU_DE_MARKETS = (By.CSS_SELECTOR, '[data-type="nav_id8"]')
+    SUB_MENU_EL_MARKETS = (By.CSS_SELECTOR, '[data-type="nav_id8"]')
+    SUB_MENU_ES_MARKETS = (By.CSS_SELECTOR, '[data-type="nav_id8"]')
+    SUB_MENU_FR_MARKETS = (By.CSS_SELECTOR, '[data-type="nav_id8"]')
+    SUB_MENU_IT_MARKETS = (By.CSS_SELECTOR, '[data-type="nav_id8"]')
+    SUB_MENU_HU_MARKETS = (By.CSS_SELECTOR, '[data-type="nav_id8"]')
+    SUB_MENU_NL_MARKETS = (By.CSS_SELECTOR, '[data-type="nav_id8"]')
+    SUB_MENU_PL_MARKETS = (By.CSS_SELECTOR, '[data-type="nav_id8"]')
+    SUB_MENU_RO_MARKETS = (By.CSS_SELECTOR, '[data-type="nav_id8"]')
+    SUB_MENU_RU_MARKETS = (By.CSS_SELECTOR, '[data-type="nav_id8"]')
+    SUB_MENU_ZH_MARKETS = (By.CSS_SELECTOR, '[data-type="nav_id8"]')
+    SUB_MENU_CN_MARKETS = (By.CSS_SELECTOR, '[data-type="nav_id8"]')
