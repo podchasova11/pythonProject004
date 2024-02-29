@@ -1,0 +1,30 @@
+class MenuUS01Indices:
+    SUB_MENU_EN_INDICES = (By.CSS_SELECTOR,
+                           ".cc-nav__dropdown a[href$='major-world-indices']")
+    SUB_MENU_AR_INDICES = (By.CSS_SELECTOR,
+                           ".cc-nav__dropdown a[href$='/ar/alasear-almubashirat-lilmuashirat-alealamiat-alrayiysia']")
+    SUB_MENU_DE_INDICES = (By.CSS_SELECTOR,
+                           ".cc-nav__dropdown a[href$='/de/welt-indizes']")
+    SUB_MENU_EL_INDICES = (By.CSS_SELECTOR,
+                           ".cc-nav__dropdown a[href$='/el/kirioi-pagkosmioi-deiktes']")
+    SUB_MENU_ES_INDICES = (By.CSS_SELECTOR,
+                           ".cc-nav__dropdown a[href$='/es/principales-indices-mundiales']")
+    SUB_MENU_FR_INDICES = (By.CSS_SELECTOR,
+                           ".cc-nav__dropdown a[href$='/fr/indices-principaux']")
+    SUB_MENU_IT_INDICES = (By.CSS_SELECTOR,
+                           ".cc-nav__dropdown a[href$='/it/indici-in-tempo-reale']")
+    SUB_MENU_HU_INDICES = (By.CSS_SELECTOR,
+                           ".cc-nav__dropdown a[href$='/hu/fobb-globalis-indexek']")
+    SUB_MENU_NL_INDICES = (By.CSS_SELECTOR,
+                           ".cc-nav__dropdown a[href$='nl/grootste-indexen-wereldwijd']")
+    SUB_MENU_PL_INDICES = (By.CSS_SELECTOR,
+                           ".cc-nav__dropdown a[href$='pl/glownych-indeksow-swiatowych']")
+    SUB_MENU_RO_INDICES = (By.CSS_SELECTOR,
+                           ".cc-nav__dropdown a[href$='/ro/principalii-indicatori-mondiali-']")
+    SUB_MENU_RU_INDICES = (By.CSS_SELECTOR,
+                           ".cc-nav__dropdown a[href$='/ru/mirovyye-fondovyye-indeksy']")
+    SUB_MENU_ZH_INDICES = (By.CSS_SELECTOR,
+                           ".cc-nav__dropdown a[href$='/zh/major-world-indices']")
+    SUB_MENU_CN_INDICES = (By.CSS_SELECTOR,
+                           ".cc-nav__dropdown a[href$='/cn/major-world-indices']")
+
