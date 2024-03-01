@@ -1,0 +1,2 @@
+Common().check_language_in_list_and_skip_if_not_present(
+            cur_language, ["", "ar", "de", "el", "es", "fr", "it", "hu", "nl", "pl", "ro", "ru", "zh", "cn"])
