@@ -33,26 +33,6 @@ class TradeIndicesBlockStartTradingNow(BasePage):
             case "Auth":
                 test_element.assert_trading_platform_v4(d, cur_item_link)
 
-    # def full_test(self, d, cur_language, cur_country, cur_role, page_url):
-    #
-    #     self.arrange_(d, page_url)
-    #
-    #     self.element_click()
-    #
-    #     test_element = AssertClass(d, page_url)
-    #     match cur_role:
-    #         case "NoReg":
-    #             test_element.assert_signup(
-    #                 d, cur_language, page_url
-    #             )
-    #         case "NoAuth":
-    #             test_element.assert_login(
-    #                 d, cur_language, page_url
-    #             )
-    #         case "Auth":
-    #             test_element.assert_trading_platform_v4(
-    #                 d, page_url
-    #             )
 
     def arrange_(self, d, cur_item_link, always=False):
         print(f"\n{datetime.now()}   1. Arrange_v0")
