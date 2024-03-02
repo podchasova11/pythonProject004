@@ -6,6 +6,9 @@
 from datetime import datetime
 import pytest
 import allure
+from pages.Elements.AssertClass import AssertClass
+from pages.Elements.testing_elements_locators import TradeIndicesBlockLocators
+from selenium.common.exceptions import ElementClickInterceptedException
 from pages.Signup_login.signup_login import SignupLogin
 from pages.base_page import BasePage
 from pages.Elements.AssertClass import AssertClass
