@@ -102,3 +102,56 @@ class TableTradingInstrumentsSellButton(BasePage):
         print(f"{datetime.now()}   => Selected Sell button clicked!")
 
         return instrument_title  # возвращаем название торгового инструмента
+
+
+############################################################
+
+@allure.step('Click Sell button on Table Widget Trading Instruments')
+    def element_click(self, random_index):
+        print(f"\n{datetime.now()}   2. Act_v0")
+
+        check_popup = SignupLogin(self.driver, self.link)
+        check_popup.check_popup_signup_form()
+        del check_popup
+
+        table_trading_instrument_list = self.driver.find_elements(*ButtonSellOnTableTradingInstrumentsLocators.TABLE_TRADING_INSTRUMENTS_NAME_LIST)
+        if len(table_trading_instrument_list) == 0:
+            pytest.fail("Problem! List of instruments is empty.")
+        instrument_item = table_trading_instrument_list[random_index]
+        instrument_title = instrument_item.get_attribute('title')
+
+        item_list = self.driver.find_elements(*ButtonSellOnTableTradingInstrumentsLocators.TABLE_TRADING_INSTRUMENTS_LIST)
+        element = item_list[random_index]
+
+        print(f"{datetime.now()}   Selected Sell button on Table Widget Trading Instruments is scroll =>")
+        self.driver.execute_script(
+            'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});', element)
+
+        print(f"{datetime.now()}   Selected Sell button click for '{instrument_title}' trading instrument =>")
+
+        ActionChains(self.driver) \
+            .pause(0.5) \
+            .move_to_element(element) \
+            .perform()
+
+        if not self.element_is_clickable(element, 3):
+            return ""
+
+        ActionChains(self.driver) \
+            .click() \
+            .perform()
+        print(f"{datetime.now()}   => Selected Sell button clicked!")
+
+        return instrument_title  # возвращаем название торгового инструмента
+
+
+# REFACTORING #####################################################
+        ActionChains(d) \
+            .move_to_element(sub_menu[0]) \
+            .pause(0.5) \
+            .click() \
+            .perform()
+        print(f"\n\n{datetime.now()}   => Risk-management guide menu item clicked")
+
+        del sub_menu
+        return d.current_url
