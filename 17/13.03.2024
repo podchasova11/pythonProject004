@@ -132,3 +132,47 @@ def cur_country(request):
     else:
         country = request.param
     print(f"Current country of trading - {country}")
+
+
+##################################################
+
+
+"""
+-*- coding: utf-8 -*-
+@Time    : 2024/10/03 12:43
+@Author  : podchasova11
+"""
+import pytest
+import random
+
+
+# @pytest.fixture(
+#     scope="function",
+#     params=[
+#         "Most traded",
+#         "Top risers",
+#         "Top fallers",
+#         "Most volatile"
+#     ],
+# )
+# def sorting(request):
+#     """Fixture"""
+#     print(f"\n\n\nCurrent sorting - {request.param}")
+#     return request.param
+
+
+@pytest.fixture(scope="function")
+def sorting(request):
+    """Fixture"""
+    options = [
+        {"sorting": "Most traded"},
+        {"sorting": "Top risers"},
+        {"sorting": "Top fallers"},
+        {"sorting": "Most volatile"}
+    ]
+    chosen_options = random.sample(options, 2)
+    for option in chosen_options:
+        print(f"\n\n\nCurrent sorting - {option['sorting']}")
+        request.cls.sorting_item = f"Current sorting - {option['sorting']}"
+        yield request.param
+
