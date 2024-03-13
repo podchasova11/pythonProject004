@@ -1,6 +1,5 @@
 import allure
 import pytest
-
 from pages.Elements.TableTradingInstrumentsBuyButton import TableTradingInstrumentsBuyButton
 from pages.Elements.TableTradingInstrumentsSellButton import TableTradingInstrumentsSellButton
 from pages.common import Common
