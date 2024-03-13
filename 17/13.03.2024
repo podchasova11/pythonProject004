@@ -176,3 +176,130 @@ def sorting(request):
         request.cls.sorting_item = f"Current sorting - {option['sorting']}"
         yield request.param
 
+###########################################################################################
+
+
+"""
+-*- coding: utf-8 -*-
+@Time    : 2023/03/06 11:30
+@Author  : podchasova11
+"""
+import random
+from datetime import datetime
+
+import pytest
+import allure
+from selenium.webdriver import ActionChains
+
+from pages.Signup_login.signup_login import SignupLogin
+from pages.base_page import BasePage
+from pages.Elements.testing_elements_locators import ButtonSellOnTableTradingInstrumentsLocators
+from pages.Elements.AssertClass import AssertClass
+
+
+class TableTradingInstrumentsSellButton(BasePage):
+
+    @allure.step(f'{datetime.now()}   Start Full test [Sell] button on Table Widget Trading Instruments')
+    def full_test_with_tpi(self, d, cur_language, cur_country, cur_role, cur_item_link):
+        qty_rnd = 2  # Тестируем два случайных инструмента
+        num_item = self.arrange_(cur_item_link)
+        random_indexes = random.sample(range(0, num_item), qty_rnd)
+        print(f"\n{datetime.now()}   Random indexes = {random_indexes}")
+
+        for i, index in enumerate(random_indexes):
+
+            print(f"\n{datetime.now()}   Testing Table Widget Trading Instruments {i + 1} random element with {index} index")
+            trade_instrument = self.element_click(index)
+            if not trade_instrument:
+                pytest.fail("Testing element is not clicked")
+
+            check_element = AssertClass(d, cur_item_link, self.bid)
+            match cur_role:
+                case "NoReg":
+                    check_element.assert_signup(d, cur_language, cur_item_link)
+                case "NoAuth":
+                    check_element.assert_login(d, cur_language, cur_item_link)
+                case "Auth":
+                    check_element.assert_trading_platform_v4(d, cur_item_link, False, True, trade_instrument)
+
+    def arrange_(self, cur_item_link):
+        print(f"\n{datetime.now()}   1. Arrange_v0")
+
+        if not self.current_page_is(cur_item_link):
+            self.link = cur_item_link
+            self.open_page()
+
+        print(f"{datetime.now()}   TABLE_TRADING_INSTRUMENTS is present? =>")
+        item_list = self.driver.find_elements(*ButtonSellOnTableTradingInstrumentsLocators.TABLE_TRADING_INSTRUMENTS_LIST)
+        num_item = len(item_list)
+        if num_item == 0:
+            print(f"{datetime.now()}   => TABLE_TRADING_INSTRUMENTS is not present on this page")
+            pytest.skip("Checking element is not on this page")
+        print(f"{datetime.now()}   => TABLE_TRADING_INSTRUMENTS is present on this page")
+        print(f"{datetime.now()}   => Found {num_item} elements in TABLE_TRADING_INSTRUMENTS")
+
+        print(f"{datetime.now()}   Most Table Widget Trading Instruments is scroll =>")
+        self.driver.execute_script(
+            'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});', item_list[0])
+        print(f"{datetime.now()}   => Most Table Widget Trading Instruments is scrolled into screen center")
+
+        # возвращаем количество элементов в Most Trade block
+        return num_item
+
+    @allure.step('Click Sell button on Table Widget Trading Instruments')
+    def element_click(self, random_index):
+        print(f"\n{datetime.now()}   2. Act_v0")
+
+        check_popup = SignupLogin(self.driver, self.link)
+        check_popup.check_popup_signup_form()
+        del check_popup
+
+        table_trading_instrument_list = self.driver.find_elements(*ButtonSellOnTableTradingInstrumentsLocators.TABLE_TRADING_INSTRUMENTS_NAME_LIST)
+        if len(table_trading_instrument_list) == 0:
+            pytest.fail("Problem! List of instruments is empty.")
+        instrument_item = table_trading_instrument_list[random_index]
+        instrument_title = instrument_item.get_attribute('title')
+
+        item_list = self.driver.find_elements(*ButtonSellOnTableTradingInstrumentsLocators.TABLE_TRADING_INSTRUMENTS_LIST)
+        element = item_list[random_index]
+
+        print(f"{datetime.now()}   Selected Sell button on Table Widget Trading Instruments is scroll =>")
+        self.driver.execute_script(
+            'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});', element)
+
+        print(f"{datetime.now()}   Selected Sell button click for '{instrument_title}' trading instrument =>")
+
+        ActionChains(self.driver) \
+            .pause(0.5) \
+            .move_to_element(element) \
+            .perform()
+
+        if not self.element_is_clickable(element, 3):
+            return ""
+
+        ActionChains(self.driver) \
+            .click() \
+            .perform()
+        print(f"{datetime.now()}   => Selected Sell button clicked!")
+
+        return instrument_title  # возвращаем название торгового инструмента
+
+    @allure.step(f"{datetime.now()}.   Click 'Risk-management guide' menu item.")
+    def sub_menu_risk_management_guide_move_focus_click(self, d, test_language):
+        sub_menu = list()
+        match test_language:
+            case "": sub_menu = d.find_elements(*MenuUS11RiskManagement.SUB_MENU_EN_RISK_MANAGEMENT)
+
+        if len(sub_menu) == 0:
+            pytest.fail(f"Bug # ??? For test language '{test_language}' "
+                        f"the page \"Learn to trade->Risk-management guide\" doesn't exist on production")
+
+        ActionChains(d) \
+            .move_to_element(sub_menu[0]) \
+            .pause(0.5) \
+            .click() \
+            .perform()
+        print(f"\n\n{datetime.now()}   => Risk-management guide menu item clicked")
+
+        del sub_menu
+        return d.current_url
