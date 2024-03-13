@@ -428,3 +428,4 @@ class TableTradingInstrumentsSellButton(BasePage):
         del sub_menu
         return d.current_url
 
+
