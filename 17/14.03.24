@@ -412,3 +412,20 @@ class TableTradingInstrumentsSellButton(BasePage):
             else:
                 print(f"{datetime.now()}   => Button [Sell] for '{market}' Market is NOT visible on the page!\n")
                 pytest.fail("Checking element is not on this page")
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    # def full_test(self, d, cur_language, cur_country, cur_role, cur_item_link, sorting, instrument):
+    #     self.arrange_(d, cur_item_link, sorting, instrument)
+    #     self.element_click(d, sorting, instrument)
+    #     qty_rnd = 2  # Тестируем два случайных инструмента
+    #     # num_item = self.arrange_(d, cur_item_link, sorting, instrument)
+    #     item_list = self.arrange_(d, cur_item_link, sorting, instrument)
+    #     # random_indexes = random.sample(range(0, num_item), qty_rnd)
+    #     random_indexes = random.sample(range(0, item_list), qty_rnd)
+    #     print(f"\n{datetime.now()}   Random indexes = {random_indexes}")
+    # 
+    #     for i, index in enumerate(random_indexes):
+    #         # print(f"\n{datetime.now()}   Testing Table Widget Trading Instruments {i + 1} random element with {index} index")
+    #         trade_instrument = self.element_click(d, index, sorting, instrument)
+    #         if not trade_instrument:
+    #             pytest.fail("Testing element is not clicked")
