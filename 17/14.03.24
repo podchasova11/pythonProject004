@@ -1,0 +1,414 @@
+"""
+-*- coding: utf-8 -*-
+@Time    : 2023/03/06 11:30
+@Author  : podchasova11
+"""
+import random
+from datetime import datetime
+
+import pytest
+import allure
+from selenium.common import ElementNotInteractableException
+from selenium.webdriver import ActionChains
+
+from pages.Signup_login.signup_login import SignupLogin
+from pages.base_page import BasePage
+from pages.Elements.testing_elements_locators import ButtonSellOnTableTradingInstrumentsLocators, \
+    ItemSortDropdownLocators
+from pages.Elements.AssertClass import AssertClass
+
+
+class TableTradingInstrumentsSellButton(BasePage):
+
+    @allure.step(f'{datetime.now()}   Start Full test [Sell] button on Table Widget Trading Instruments')
+    def full_test_with_tpi(self, d, cur_language, cur_country, cur_role, cur_item_link):
+        self.arrange_(d, cur_item_link, sorting, instrument)
+        self.element_click(d,  sorting, instrument)
+        qty_rnd = 2  # Тестируем два случайных инструмента
+        num_item = self.arrange_(d, cur_item_link, sorting, instrument)
+        random_indexes = random.sample(range(0, num_item), qty_rnd)
+        print(f"\n{datetime.now()}   Random indexes = {random_indexes}")
+
+        for i, index in enumerate(random_indexes):
+
+            print(f"\n{datetime.now()}   Testing Table Widget Trading Instruments {i + 1} random element with {index} index")
+            trade_instrument = self.element_click(index)
+            if not trade_instrument:
+                pytest.fail("Testing element is not clicked")
+
+            check_element = AssertClass(d, cur_item_link, self.bid)
+            match cur_role:
+                case "NoReg":
+                    check_element.assert_signup(d, cur_language, cur_item_link)
+                case "NoAuth":
+                    check_element.assert_login(d, cur_language, cur_item_link)
+                case "Auth":
+                    check_element.assert_trading_platform_v4(d, cur_item_link, False, True, trade_instrument)
+
+    def arrange_(self, cur_item_link): # добавить новый аргумент, ээто фикстура из конфтестsorting = cur_sort
+        print(f"\n{datetime.now()}   1. Arrange_v0") #  1. Arrange for Our Markets block: '{market}' market, '{instrument}' instrument")
+
+        if not self.current_page_is(cur_item_link):
+            self.link = cur_item_link
+            self.open_page()
+
+        print(f"{datetime.now()}   TABLE_TRADING_INSTRUMENTS is present? =>")
+        item_list = self.driver.find_elements(*ButtonSellOnTableTradingInstrumentsLocators.TABLE_TRADING_INSTRUMENTS_LIST)
+        num_item = len(item_list)
+        if num_item == 0:
+            print(f"{datetime.now()}   => TABLE_TRADING_INSTRUMENTS is not present on this page")
+            pytest.skip("Checking element is not on this page")
+        print(f"{datetime.now()}   => TABLE_TRADING_INSTRUMENTS is present on this page")
+        print(f"{datetime.now()}   => Found {num_item} elements in TABLE_TRADING_INSTRUMENTS")
+
+        print(f"{datetime.now()}   Most Table Widget Trading Instruments is scroll =>")
+        self.driver.execute_script(
+            'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});', item_list[0])
+        print(f"{datetime.now()}   => Most Table Widget Trading Instruments is scrolled into screen center")
+
+        # возвращаем количество элементов в Most Trade block
+        return num_item
+
+    @allure.step('Click Sell button on Table Widget Trading Instruments')
+    def element_click(self, random_index):
+        print(f"\n{datetime.now()}   2. Act_v0")
+
+        check_popup = SignupLogin(self.driver, self.link)
+        check_popup.check_popup_signup_form()
+        del check_popup
+
+        table_trading_instrument_list = self.driver.find_elements(*ButtonSellOnTableTradingInstrumentsLocators.TABLE_TRADING_INSTRUMENTS_NAME_LIST)
+        if len(table_trading_instrument_list) == 0:
+            pytest.fail("Problem! List of instruments is empty.")
+        instrument_item = table_trading_instrument_list[random_index]
+        instrument_title = instrument_item.get_attribute('title')
+
+        item_list = self.driver.find_elements(*ButtonSellOnTableTradingInstrumentsLocators.TABLE_TRADING_INSTRUMENTS_LIST)
+        element = item_list[random_index]
+
+        print(f"{datetime.now()}   Selected Sell button on Table Widget Trading Instruments is scroll =>")
+        self.driver.execute_script(
+            'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});', element)
+
+        print(f"{datetime.now()}   Selected Sell button click for '{instrument_title}' trading instrument =>")
+
+        ActionChains(self.driver) \
+            .pause(0.5) \
+            .move_to_element(element) \
+            .perform()
+
+        if not self.element_is_clickable(element, 3):
+            return ""
+
+        ActionChains(self.driver) \
+            .click() \
+            .perform()
+        print(f"{datetime.now()}   => Selected Sell button clicked!")
+
+        return instrument_title  # возвращаем название торгового инструмента
+################################
+
+class TableTradingInstrumentsSellButton(BasePage):
+    def __init__(self, browser, link, bid):
+        self.instruments_locator = None
+        self.instruments_list = None
+        self.current_instrument = None
+
+        self.market_locator = None
+        self.current_market = None
+
+        self.button_locator = None
+        self.button = None
+
+        self.trade_instrument = None
+
+        super().__init__(browser, link, bid)
+
+    @allure.step(f'{datetime.now()}   Start Full test [Sell] button on Table Widget Trading Instruments')
+    def full_test_with_tpi(self, d, cur_language, cur_country, cur_role, cur_item_link, sorting):
+
+        qty_rnd = 2  # Тестируем два случайных инструмента
+        num_item = self.arrange_(cur_item_link, sorting)
+        random_indexes = random.sample(range(0, num_item), qty_rnd)
+        print(f"\n{datetime.now()}   Random indexes = {random_indexes}")
+
+        for i, index in enumerate(random_indexes):
+
+            print(f"\n{datetime.now()}   Testing Table Widget Trading Instruments {i + 1} random element with {index} index")
+            trade_instrument = self.element_click(index)
+            if not trade_instrument:
+                pytest.fail("Testing element is not clicked")
+
+            check_element = AssertClass(d, cur_item_link, self.bid)
+            match cur_role:
+                case "NoReg":
+                    check_element.assert_signup(d, cur_language, cur_item_link)
+                case "NoAuth":
+                    check_element.assert_login(d, cur_language, cur_item_link)
+                case "Auth":
+                    check_element.assert_trading_platform_v4(d, cur_item_link, False, True, trade_instrument)
+
+    def arrange_(self, cur_item_link, sorting): # добавить новый аргумент, ээто фикстура из конфтестsorting = cur_sort
+        print(f"\n{datetime.now()}   1. Arrange_v0") #  1. Arrange for Our Markets block: '{market}' market, '{instrument}' instrument")
+
+        if not self.current_page_is(cur_item_link):
+            self.link = cur_item_link
+            self.open_page()
+
+        print(f"{datetime.now()}   TABLE_TRADING_INSTRUMENTS is present? =>")
+        item_list = self.driver.find_elements(*ButtonSellOnTableTradingInstrumentsLocators.TABLE_TRADING_INSTRUMENTS_LIST)
+        num_item = len(item_list)
+        if num_item == 0:
+            print(f"{datetime.now()}   => TABLE_TRADING_INSTRUMENTS is not present on this page")
+            pytest.skip("Checking element is not on this page")
+        print(f"{datetime.now()}   => TABLE_TRADING_INSTRUMENTS is present on this page")
+        print(f"{datetime.now()}   => Found {num_item} elements in TABLE_TRADING_INSTRUMENTS")
+
+        print(f"{datetime.now()}   Most Table Widget Trading Instruments is scroll =>")
+        self.driver.execute_script(
+            'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});', item_list[0])
+        print(f"{datetime.now()}   => Most Table Widget Trading Instruments is scrolled into screen center")
+
+        # возвращаем количество элементов в Most Trade block
+        return num_item
+
+    @allure.step('Click Sell button on Table Widget Trading Instruments')
+    def element_click(self, random_index, sorting):
+        print(f"\n{datetime.now()}   2. Act_v0")
+
+        check_popup = SignupLogin(self.driver, self.link)
+        check_popup.check_popup_signup_form()
+        del check_popup
+
+        table_trading_instrument_list = self.driver.find_elements(*ButtonSellOnTableTradingInstrumentsLocators.TABLE_TRADING_INSTRUMENTS_NAME_LIST)
+        if len(table_trading_instrument_list) == 0:
+            pytest.fail("Problem! List of instruments is empty.")
+        instrument_item = table_trading_instrument_list[random_index]
+        instrument_title = instrument_item.get_attribute('title')
+
+        item_list = self.driver.find_elements(*ButtonSellOnTableTradingInstrumentsLocators.TABLE_TRADING_INSTRUMENTS_LIST)
+        element = item_list[random_index]
+
+        print(f"{datetime.now()}   Selected Sell button on Table Widget Trading Instruments is scroll =>")
+        self.driver.execute_script(
+            'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});', element)
+
+        print(f"{datetime.now()}   Selected Sell button click for '{instrument_title}' trading instrument =>")
+
+        ActionChains(self.driver) \
+            .pause(0.5) \
+            .move_to_element(element) \
+            .perform()
+
+        if not self.element_is_clickable(element, 3):
+            return ""
+
+        ActionChains(self.driver) \
+            .click() \
+            .perform()
+        print(f"{datetime.now()}   => Selected Sell button clicked!")
+
+        return instrument_title  # возвращаем название торгового инструмента
+
+    ###########################################################################################
+
+    class SellButtonOurMarketsTable(BasePage):
+        def __init__(self, browser, link, bid):
+            # self.item_sorting = None
+            self.sorting_locator = None
+            self.current_sorting = None
+
+            self.instruments_locator = None
+            self.instruments_list = None
+            self.cur_instrument = None
+
+            self.button_locator = None
+            self.button = None
+
+            self.trade_instrument = None
+
+            super().__init__(browser, link, bid)
+
+        def full_test(self, d, cur_language, cur_country, cur_role, cur_item_link, sorting, instrument):
+            self.element_click(d, sorting, instrument)
+            qty_rnd = 2  # Тестируем два случайных инструмента
+            num_item = self.arrange_(d, cur_item_link, sorting, instrument)
+            random_indexes = random.sample(range(0, num_item), qty_rnd)
+            print(f"\n{datetime.now()}   Random indexes = {random_indexes}")
+
+            for i, index in enumerate(random_indexes):
+
+            print(
+                f"\n{datetime.now()}   Testing Table Widget Trading Instruments {i + 1} random element with {index} index")
+                trade_instrument = self.element_click(index)
+                if not trade_instrument:
+                    pytest.fail("Testing element is not clicked")
+
+                    test_element = AssertClass(self.driver, cur_item_link)
+                    match cur_role:
+                        case "NoReg":
+                            test_element.assert_signup(self.driver, cur_language, cur_item_link)
+                        case "NoAuth":
+                            test_element.assert_login(self.driver, cur_language, cur_item_link)
+                        case "Auth":
+                            test_element.assert_trading_platform_v4(
+                                self.driver, cur_item_link, False, True, self.trade_instrument)
+                    self.driver.get(cur_item_link)
+
+        def arrange_(self, d, cur_item_link, sorting, instrument):
+            print(
+                f"\n{datetime.now()}   1. Arrange TABLE_TRADING_INSTRUMENTS: '{sorting}' sorting")
+
+            if not self.current_page_is(cur_item_link):
+                self.link = cur_item_link
+                self.open_page()
+
+            print(f"{datetime.now()}   IS TABLE_TRADING_INSTRUMENTS present on this page? =>")
+            dropdown_list = self.driver.find_elements(*ItemSortDropdownLocators.ALL_ITEM_DROPDOWN_SORT)
+            if len(dropdown_list) == 0:
+                print(f"{datetime.now()}   => TABLE_TRADING_INSTRUMENTS is NOT present on this page\n")
+                pytest.fail("Checking element is not on this page")
+            print(f"{datetime.now()}   => TABLE_TRADING_INSTRUMENTS present on the page!\n")
+
+            print(f"{datetime.now()}   IS TABLE_TRADING_INSTRUMENTS visible on this page? =>")
+            if not self.element_is_visible(ItemSortDropdownLocators.ALL_ITEM_DROPDOWN_SORT, 5):
+                print(f"{datetime.now()}   => TABLE_TRADING_INSTRUMENTS is NOT visible on the page!\n")
+                pytest.fail("Checking element is present in DOM this page, but not visible")
+            print(f"{datetime.now()}   => TABLE_TRADING_INSTRUMENTS is visible on the page!\n")
+
+            match sorting:
+                case 'Most traded':
+                    self.sorting_locator = ItemSortDropdownLocators.ITEM_DROPDOWN_SORT_MOST_TRADED
+                case 'Top risers':
+                    self.sorting_locator = ItemSortDropdownLocators.ITEM_DROPDOWN_SORT_TOP_RISERS
+                case 'Top fallers':
+                    self.sorting_locator = ItemSortDropdownLocators.ITEM_DROPDOWN_SORT_TOP_FALLERS
+                case 'Most volatile':
+                    self.sorting_locator = ItemSortDropdownLocators.ITEM_DROPDOWN_SORT_MOST_VOLATILE
+
+            print(f"{datetime.now()}   IS SORTING '{sorting}' present on this page? =>")
+            sorting_list = self.driver.find_elements(*self.sorting_locator)
+            if len(sorting_list) == 0:
+                print(f"{datetime.now()}   => SORTING '{sorting}' is NOT present on this page\n")
+                pytest.fail("Checking element is not on this page")
+            print(f"{datetime.now()}   => SORTING '{sorting}' present on the page!\n")
+
+            print(f"{datetime.now()}   IS SORTING '{sorting}' visible on the page? =>")
+            if not self.element_is_visible(self.sorting_locator, 5):
+                print(f"{datetime.now()}   => SORTING '{sorting}' is NOT visible on the page!\n")
+                pytest.fail("Checking element is present in DOM this page, but not visible")
+            print(f"{datetime.now()}   => SORTING '{sorting}' is visible on the page!\n")
+
+            print(f"{datetime.now()}   Start Click button '{sorting}' SORTING =>")
+            self.current_sorting = self.driver.find_element(*self.sorting_locator)
+            self.driver.execute_script(
+                'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+                self.current_sorting
+            )
+
+            try:
+                self.current_sorting.click()
+                print(f"{datetime.now()}   => End Click button '{sorting}' SORTING\n")
+            except ElementNotInteractableException:
+                print(f"{datetime.now()}   => Button '{sorting}' SORTING it's NOT clickable\n")
+                pytest.fail("Checking element is not clickable")
+##################################################################
+            print(f"{datetime.now()}   Is INSTRUMENTS present? =>")
+            self.instruments_locator = ButtonSellOnTableTradingInstrumentsLocators.TABLE_TRADING_INSTRUMENTS_LIST
+            self.instruments_list = self.driver.find_elements(*self.instruments_locator)
+
+            if len(self.instruments_list) == 0:
+                print(f"{datetime.now()}   => INSTRUMENTS is NOT present on this page\n")
+                pytest.fail("Checking element is not on this page")
+            print(f"{datetime.now()}   => INSTRUMENTS is present on this page!\n")
+
+            print(f"{datetime.now()}   Is INSTRUMENTS visible? =>")
+            if not self.element_is_visible(self.instruments_locator, 5):
+                print(f"{datetime.now()}   => INSTRUMENTS is NOT visible on the page!\n")
+                pytest.fail("Checking element is present in DOM this page, but not visible")
+            print(f"{datetime.now()}   => INSTRUMENTS is visible on the page!\n")
+
+            print(f"{datetime.now()}   Start Find and Click button Sell '{instrument}' instrument=>")
+
+            # import random
+
+            count = 0
+            random_indices = random.sample(range(len(self.instruments_list)), k=2)
+
+            for index in random_indices:
+                cur_instrument = self.instruments_list[index]
+                cur_instrument_name = self.instruments_locator[index]
+                #cur_instrument_name = cur_instrument.get_attribute(self.instruments_locator)
+
+
+
+
+            arrow_right_button_locator = ButtonsOnPageLocators.BUTTON_ARROW_RIGHT
+            arrow_right_button = self.driver.find_element(*arrow_right_button_locator)
+            count = 0
+            match instrument:
+                case 'First':
+                    index_instrument = 0
+                    self.current_instrument = self.instruments_list[index_instrument]
+                    self.driver.execute_script(
+                        'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+                        self.current_instrument
+                    )
+                    self.current_instrument.click()
+
+                case 'Last':
+                    index_instrument = len(self.instruments_list) - 1
+                    self.current_instrument = self.instruments_list[index_instrument]
+                    status_current_instrument = self.current_instrument.get_attribute("aria-hidden")
+                    while not status_current_instrument and count < 20:
+                        arrow_right_button.click()
+                        time.sleep(1)
+                        status_current_instrument = self.current_instrument.get_attribute("aria-hidden")
+                        count += 1
+
+                    self.driver.execute_script(
+                        'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+                        self.current_instrument
+                    )
+                    self.current_instrument.click()
+
+                case 'Middle':
+                    index_instrument = len(self.instruments_list) // 2 + 1
+                    self.current_instrument = self.instruments_list[index_instrument]
+                    status_current_instrument = self.current_instrument.get_attribute("aria-hidden")
+                    while not status_current_instrument and count < 20:
+                        arrow_right_button.click()
+                        time.sleep(1)
+                        status_current_instrument = self.current_instrument.get_attribute("aria-hidden")
+                        count += 1
+
+                    self.driver.execute_script(
+                        'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+                        self.current_instrument
+                    )
+                    self.current_instrument.click()
+            print(f"{datetime.now()}   => End Click button '{instrument}' instrument=>\n")
+
+        @allure.step("Click button BUTTON_TRADING_SELL_IN_TABLES")
+        def element_click(self, d, market, instrument):
+            print(f"{datetime.now()}   2. Act for '{market}' Market and '{instrument}' Instrument")
+
+            print(f"{datetime.now()}   IS button [Sell] for '{market}' Market visible on the page? =>")
+            self.button_locator = ButtonsOnPageLocators.BUTTON_OUR_MARKETS_SELL
+            if self.driver.find_element(*self.button_locator):
+                print(f"{datetime.now()}   => Button [Sell] for '{market}' Market is visible on the page!\n")
+
+                print(f"{datetime.now()}   Start click button [Sell] =>")
+                self.button = self.driver.find_element(*self.button_locator)
+                self.driver.execute_script(
+                    'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+                    self.button
+                )
+
+                self.trade_instrument = self.current_instrument.text.split('\n')[0]
+
+                self.button.click()
+                print(f"{datetime.now()}   => End Click button [Sell]")
+            else:
+                print(f"{datetime.now()}   => Button [Sell] for '{market}' Market is NOT visible on the page!\n")
+                pytest.fail("Checking element is not on this page")
