@@ -21,3 +21,181 @@ def sorting(request):
     """Fixture"""
     print(f"\n\n\nCurrent sorting - {request.param}")
     return request.param
+#####################################
+
+
+# C:\Users\Mila\PycharmProjects\TestCapitalComPySe\pages\Markets\Indices\indices.py
+
+# indices
+
+
+"""
+-*- coding: utf-8 -*-
+@Time    : 2023/03/06 11:30
+@Author  : podchasova11
+"""
+import allure
+
+from pages.base_page import BasePage
+import time
+from datetime import datetime
+
+class IndicesSection(BasePage):
+
+    @allure.step('Select and click [Dropdown] sub_menu, on "Table Widget Trading Instruments"')
+    def open_field_dropdown_menu_on_table_widget_trading_instruments (self, d, cur_language, cur_country, link):
+
+        print(f'\n{datetime.now()}   START Open "Dropdown" menu, on "Table Widget Trading Instruments" =>')
+        print(f"\n{datetime.now()}   1. Cur URL = {d.current_url}")
+        print(f"\n{datetime.now()}   2. Link = {link}")
+        if not self.current_page_is(link):
+            self.link = link
+            self.open_page()
+
+        self.menu_dropdown_move_focus(d, cur_language, cur_country)
+        self.sub_menu_risk_management_guide_move_focus_click(d, cur_language)
+
+        print(f"\n{datetime.now()}   3. Cur URL = {d.current_url}")
+        return d.current_url
+
+    @allure.step(f"{datetime.now()}.   Move focus to 'Learn to trade' menu section.")
+    def menu_dropdown_move_focus(self, d, test_language, test_country):
+        dropdown_menu_locator = None
+        if test_language == "" and test_country == "gb":
+            dropdown_menu_locator = MenuUS11Education.SUB_MENU_EN_GB_LEARN_TO_TRADE
+        else:
+            match test_language:
+                case "":
+                    dropdown_menu_locator = MenuUS11Education.SUB_MENU_EN_LEARN_TO_TRADE
+                case "ar":
+                    dropdown_menu_locator = MenuUS11Education.SUB_MENU_AR_LEARN_TO_TRADE
+                case "de":
+                    dropdown_menu_locator = MenuUS11Education.SUB_MENU_DE_LEARN_TO_TRADE
+
+    @allure.step(f"{datetime.now()}   Click 'CFD trading guide' hyperlink.")
+    def sub_menu_cfd_trading_guide_move_focus_click(self, d, test_language):
+        sub_menu = list()
+        match test_language:
+            case "de":
+                sub_menu = d.find_elements(*MenuUS11CFDTradingGuide.SUB_MENU_DE_CFD_TRADING_GUIDE)
+            # case "el": sub_menu = d.find_elements(*MenuUS11CFDTradingGuide.SUB_MENU_EL_CFD_TRADING_GUIDE)
+            case "":
+                sub_menu = d.find_elements(*MenuUS11CFDTradingGuide.SUB_MENU_EN_CFD_TRADING_GUIDE)
+            case "es":
+                sub_menu = d.find_elements(*MenuUS11CFDTradingGuide.SUB_MENU_ES_CFD_TRADING_GUIDE)
+            case "fr":
+                sub_menu = d.find_elements(*MenuUS11CFDTradingGuide.SUB_MENU_FR_CFD_TRADING_GUIDE)
+            case "it":
+                sub_menu = d.find_elements(*MenuUS11CFDTradingGuide.SUB_MENU_IT_CFD_TRADING_GUIDE)
+            case "nl":
+                sub_menu = d.find_elements(*MenuUS11CFDTradingGuide.SUB_MENU_NL_CFD_TRADING_GUIDE)
+            case "pl":
+                sub_menu = d.find_elements(*MenuUS11CFDTradingGuide.SUB_MENU_PL_CFD_TRADING_GUIDE)
+            case "ro":
+                sub_menu = d.find_elements(*MenuUS11CFDTradingGuide.SUB_MENU_RO_CFD_TRADING_GUIDE)
+            case "ru":
+                sub_menu = d.find_elements(*MenuUS11CFDTradingGuide.SUB_MENU_RU_CFD_TRADING_GUIDE)
+            case "zh":
+                sub_menu = d.find_elements(*MenuUS11CFDTradingGuide.SUB_MENU_ZH_CFD_TRADING_GUIDE)
+
+        if len(sub_menu) == 0:
+            pytest.fail(f"Bug # ??? For test language '{test_language}' "
+                        f"the page \"Education->CFD trading guide\" doesn't exist on production")
+
+        ActionChains(d) \
+            .move_to_element(sub_menu[0]) \
+            .pause(0.5) \
+            .click() \
+            .perform()
+
+        return d.current_url
+
+        #########################################################
+
+        """
+-*- coding: utf-8 -*-
+@Time    : 2023/03/15 11:30
+@Author  : podchasova11
+"""
+
+from selenium.webdriver.common.by import By
+
+
+class MenuFieldDropdownWidgetTradingInstruments:
+    SUB_MENU_AR_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/ar/learn-to-trade']")
+    SUB_MENU_CN_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/cn/learn-to-trade']")
+    SUB_MENU_DE_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/de/learn-to-trade']")
+    SUB_MENU_EL_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/el/learn-to-trade']")
+
+
+class MenuDropdownSortingMostTraded:
+    SUB_MENU_AR_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/ar/learn-to-trade']")
+    SUB_MENU_CN_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/cn/learn-to-trade']")
+    SUB_MENU_DE_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/de/learn-to-trade']")
+    SUB_MENU_EL_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/el/learn-to-trade']")
+
+
+class MenuDropdownSortingTopRisers:
+    SUB_MENU_AR_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/ar/learn-to-trade']")
+    SUB_MENU_CN_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/cn/learn-to-trade']")
+    SUB_MENU_DE_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/de/learn-to-trade']")
+    SUB_MENU_EL_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/el/learn-to-trade']")
+
+
+class MenuDropdownSortingTopFallers:
+    SUB_MENU_AR_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/ar/learn-to-trade']")
+    SUB_MENU_CN_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/cn/learn-to-trade']")
+    SUB_MENU_DE_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/de/learn-to-trade']")
+    SUB_MENU_EL_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/el/learn-to-trade']")
+
+
+class MenuDropdownSortingMostVolatile:
+    SUB_MENU_AR_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/ar/learn-to-trade']")
+    SUB_MENU_CN_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/cn/learn-to-trade']")
+    SUB_MENU_DE_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/de/learn-to-trade']")
+    SUB_MENU_EL_LEARN_TO_TRADE = \
+        (By.CSS_SELECTOR, ".cc-header .cc-nav__item > a[href='https://capital.com/el/learn-to-trade']")
+
+# class FieldDropdownMarketsLocator:
+#     FIELD_DROPDOWN_MARKETS = (By.CSS_SELECTOR,
+#                               'div.row > div > div.tabs.tabs--type1-sm.js-tabs-markets > div > div:nth-child(2) > div')
+#     FIELD_DROPDOWN_LIST = (By.CSS_SELECTOR, '.js-fieldDropdown-markets.opened')
+#     FIELD_DROPDOWN_MOST_TRADED = (By.CSS_SELECTOR, 'input[placeholder="Most traded"]')
+#     FIELD_DROPDOWN_TOP_RISERS = (By.CSS_SELECTOR, 'input[placeholder="Top risers"]')
+#     FIELD_DROPDOWN_TOP_FALLERS = (By.CSS_SELECTOR, 'input[placeholder="Top fallers"]')
+#     FIELD_DROPDOWN_MOST_VOLATILE = (By.CSS_SELECTOR, 'input[placeholder="Most volatile"]')
+#
+#
+# class ItemSortDropdownLocators:
+#     ALL_ITEM_DROPDOWN_SORT = (By.CSS_SELECTOR, 'li.sort')
+#     ITEM_DROPDOWN_SORT_MOST_TRADED = (By.CSS_SELECTOR, 'li[data-sort="most"]')
+#     ITEM_DROPDOWN_SORT_TOP_RISERS = (By.CSS_SELECTOR, 'li[data-sort="risers"]')
+#     ITEM_DROPDOWN_SORT_TOP_FALLERS = (By.CSS_SELECTOR, 'li[data-sort="fallers"]')
+#     ITEM_DROPDOWN_SORT_MOST_VOLATILE = (By.CSS_SELECTOR, 'li[data-sort="volatile"]')
+#
+# class ButtonSellOnTableTradingInstrumentsLocators:
+#     TABLE_TRADING_INSTRUMENTS = (By.CSS_SELECTOR, "div.table-instruments table.table tbody")
+#     TABLE_TRADING_INSTRUMENTS_LIST = (By.CSS_SELECTOR, "div.table-instruments a[data-side='sell']")
+#     TABLE_TRADING_INSTRUMENTS_NAME_LIST = (By.CSS_SELECTOR, "div.table-instruments p.table__info.stringEllipsed")
+#
+#     (By.CSS_SELECTOR, "div.row div.fieldDropdown")
+
