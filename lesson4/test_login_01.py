@@ -18,7 +18,7 @@ class TestFormRegistration:
         ]
     )
 
-    '
+    
     
     def test_login(driver, username, password):
         username_field = driver.find_element("xpath", "//input[@name='username']")
