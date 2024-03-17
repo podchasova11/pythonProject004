@@ -56,11 +56,7 @@ class MenuUS01Markets:
 #     SUB_MENU_RO_MARKETS = \
 #         (By.CSS_SELECTOR, "a[href*='/ro/instrumente'].cc-nav__link.cc-nav__link--lvl1.js-analyticsClick")
 #     SUB_MENU_RU_MARKETS = \
-#         (By.CSS_SELECTOR, "a[href*='/ru/proizvodnyye'].cc-nav__link.cc-nav__link--lvl1.js-analyticsClick")
-#     SUB_MENU_ZH_MARKETS = \
-#         (By.CSS_SELECTOR, "a[href*='/zh/derivative'].cc-nav__link.cc-nav__link--lvl1.js-analyticsClick")
-#     SUB_MENU_CN_MARKETS = \
-#         (By.CSS_SELECTOR, "a[href*='/cn/derivative'].cc-nav__link.cc-nav__link--lvl1.js-analyticsClick")
+
 
 
 @pytest.mark.us_01_04
