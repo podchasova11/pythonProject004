@@ -32,7 +32,6 @@ class TestDependens:
     def test_delete_post(driver):
         driver.get("https://opensource-demo.orangehrmlive.com/web/index.php/buzz/viewBuzz")
         
-
     # Здесь выполняются действия для удаления поста
 
         assert "post_deleted" in driver.page_source
