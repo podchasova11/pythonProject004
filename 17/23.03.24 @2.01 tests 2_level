@@ -1,0 +1,147 @@
+"""
+-*- coding: utf-8 -*-
+@Time    : 2024/03/22 19:00
+@Author  : podchasova11
+"""
+
+import allure
+import pytest
+
+from pages.Elements.PageInstrumentLongPositionGoToPlatformButton import PageInstrumentLongPositionGoToPlatformButton
+from pages.Elements.PageInstrumentShortPositionGoToPlatformButton import PageInstrumentShortPositionGoToPlatformButton
+from pages.Elements.PageInstrumentViewDetailedChartButton import PageInstrumentViewDetailedChartButton
+from pages.Elements.TradeCFDBuyButton import TradeCFDBuyButton
+from pages.Elements.TradeCFDSellButton import TradeCFDSellButton
+from pages.common import Common
+from pages.conditions import Conditions
+from src.src import CapitalComPageSrc
+from tests.build_dynamic_arg import build_dynamic_arg_v4
+
+
+def pytest_generate_tests(metafunc):
+
+    file_name = "tests/US_01_Markets/US_01-04_Indices/list_of_href.text"
+    list_item_link = Common().generate_cur_item_link_parameter(file_name)
+    metafunc.parametrize("cur_item_link", list_item_link, scope="class")
+
+
+def check_cur_href(cur_item_link, list_href):
+    if cur_item_link in list_href:
+        return
+    else:
+        pytest.skip(f"This test case is not for page: '{cur_item_link}'")
+
+
+@pytest.mark.us_01_04_01
+class TestIndicesItemPage:
+    page_conditions = None
+
+    @allure.step("Start test of button [View Detailed Chart] on trading instrument page'")
+    @pytest.mark.test_002
+    def test_002_page_instrument_view_detailed_chart_button(
+            self, worker_id, d, cur_language, cur_country, cur_role, cur_login, cur_password, cur_item_link):
+        """
+        Check: Button [View Detailed Chart] on trading instrument page
+        Language: All. License: All,except FCA.
+        """
+        bid = build_dynamic_arg_v4(
+            d, worker_id, cur_language, cur_country, cur_role,
+            "01.04", "Markets > Menu item [Forex]",
+            ".01_002", "Testing button [View Detailed Chart] on trading instrument page")
+
+        Common().check_country_in_list_and_skip_if_present(cur_country, ["gb"])
+
+        page_conditions = Conditions(d, "")
+        page_conditions.preconditions(
+            d, CapitalComPageSrc.URL, "", cur_language, cur_country, cur_role, cur_login, cur_password)
+
+        test_element = PageInstrumentViewDetailedChartButton(d, cur_item_link, bid)
+        test_element.full_test_with_tpi(d, cur_language, cur_country, cur_role, cur_item_link)
+
+    @allure.step("Start test button [Go to platform] on page instrument long position")
+    @pytest.mark.test_003
+    def test_003_page_instrument_long_position_go_to_platform_button(
+            self, worker_id, d, cur_language, cur_country, cur_role, cur_login, cur_password, cur_item_link):
+        """
+        Check: Button [Go to platform] on page instrument long position
+        Language: All. License: All,except FCA.
+        """
+        bid = build_dynamic_arg_v4(
+            d, worker_id, cur_language, cur_country, cur_role,
+            "01.04", "Markets > Menu item [Indices]",
+            ".01_003", "Testing button [Go to platform] on page instrument long position")
+
+        Common().check_country_in_list_and_skip_if_present(cur_country, ["gb"])
+
+        page_conditions = Conditions(d, "")
+        page_conditions.preconditions(
+            d, CapitalComPageSrc.URL, "", cur_language, cur_country, cur_role, cur_login, cur_password)
+
+        test_element = PageInstrumentLongPositionGoToPlatformButton(d, cur_item_link, bid)
+        test_element.full_test_with_tpi(d, cur_language, cur_country, cur_role, cur_item_link)
+
+    @allure.step("Start test button [Go to platform] on page instrument short position")
+    @pytest.mark.test_004
+    def test_004_page_instrument_short_position_go_to_platform_button(
+            self, worker_id, d, cur_language, cur_country, cur_role, cur_login, cur_password, cur_item_link):
+        """
+        Check: Button [Go to platform] on page instrument short position
+        Language: All. License: All,except FCA.
+        """
+        bid = build_dynamic_arg_v4(
+            d, worker_id, cur_language, cur_country, cur_role,
+            "01.04", "Markets > Menu item [Indices]",
+            ".01_004", "Testing button [Go to platform] on page instrument short position")
+
+        Common().check_country_in_list_and_skip_if_present(cur_country, ["gb"])
+
+        page_conditions = Conditions(d, "")
+        page_conditions.preconditions(
+            d, CapitalComPageSrc.URL, "", cur_language, cur_country, cur_role, cur_login, cur_password)
+
+        test_element = PageInstrumentShortPositionGoToPlatformButton(d, cur_item_link, bid)
+        test_element.full_test_with_tpi(d, cur_language, cur_country, cur_role, cur_item_link)
+
+    @allure.step("Start test of button [Sell] on trading instrument page'")
+    @pytest.mark.test_006
+    def test_006_page_trading_instrument_sell_button(
+            self, worker_id, d, cur_language, cur_country, cur_role, cur_login, cur_password, cur_item_link):
+        """
+        Check: Button [Sell] on trading instrument page
+        Language: All. License: All,except FCA.
+        """
+        bid = build_dynamic_arg_v4(
+            d, worker_id, cur_language, cur_country, cur_role,
+            "01.04", "Markets > Menu item [Indices]",
+            ".01_006", "Testing button [Sell] on trading instrument page")
+
+        Common().check_country_in_list_and_skip_if_present(cur_country, ["gb"])
+
+        page_conditions = Conditions(d, "")
+        page_conditions.preconditions(
+            d, CapitalComPageSrc.URL, "", cur_language, cur_country, cur_role, cur_login, cur_password)
+
+        test_element = TradeCFDSellButton(d, cur_item_link, bid)
+        test_element.full_test(d, cur_language, cur_country, cur_role, cur_item_link)
+
+    @allure.step("Start test of button [Buy] on trading instrument page'")
+    @pytest.mark.test_005
+    def test_005_page_trading_instrument_buy_button(
+            self, worker_id, d, cur_language, cur_country, cur_role, cur_login, cur_password, cur_item_link):
+        """
+        Check: Button [Buy] on trading instrument page
+        Language: All. License: All,except FCA.
+        """
+        bid = build_dynamic_arg_v4(
+            d, worker_id, cur_language, cur_country, cur_role,
+            "01.04", "Markets > Menu item [Indices]",
+            ".01_005", "Testing button [Buy] on trading instrument page")
+
+        Common().check_country_in_list_and_skip_if_present(cur_country, ["gb"])
+
+        page_conditions = Conditions(d, "")
+        page_conditions.preconditions(
+            d, CapitalComPageSrc.URL, "", cur_language, cur_country, cur_role, cur_login, cur_password)
+
+        test_element = TradeCFDBuyButton(d, cur_item_link, bid)
+        test_element.full_test(d, cur_language, cur_country, cur_role, cur_item_link)
