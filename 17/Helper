@@ -1,0 +1,88 @@
+helper.py
+import pickle
+import os
+import time
+
+import allure
+from allure_commons.types import AttachmentType
+from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.remote.webdriver import WebElement
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver import ActionChains
+
+class Helper:
+
+    def __init__(self, driver):
+        self.driver: WebDriver = driver
+        self.wait = WebDriverWait(self.driver, timeout=10, poll_frequency=1)
+        self.action = ActionChains(self.driver)
+
+    #? Allure methods
+
+    def screenshot(self, screenshot_name):
+        allure.attach(
+            body=self.driver.get_screenshot_as_png(),
+            name=screenshot_name,
+            attachment_type=AttachmentType.PNG
+        )
+
+    def find(self, locator):
+        return self.driver.find_element("xpath", locator)
+
+    #? Wait methods
+
+    def wait_for_visibility(self, locator: str):
+        """
+        This method waits for visibility of element
+        :param locator: Takes xpath locator
+        :return: WebElement
+        """
+        return self.wait.until(EC.visibility_of_element_located(("xpath", locator)))
+
+    def wait_for_invisibility(self, locator: str):
+        """
+        This method waits for invisibility of element
+        :param locator: Takes xpath locator
+        :return: WebElement
+        """
+        return self.wait.until(EC.invisibility_of_element(("xpath", locator)))
+
+    def wait_for_clickable(self, locator: str):
+        """
+        This method waits for clickable of element
+        :param locator: Takes xpath locator
+        :return: WebElement
+        """
+        return self.wait.until(EC.element_to_be_clickable(("xpath", locator)))
+
+    #? Action method
+
+    def save_cookies(self, cookies_name):
+        pickle.dump(self.driver.get_cookies(), open(f"{os.getcwd()}/temporary/cookies/{cookies_name}.pkl", "wb"))
+
+    def load_cookies(self, cookies_name):
+        cookies = pickle.load(open(f"{os.getcwd()}/temporary/cookies/{cookies_name}.pkl", "rb"))
+        self.driver.delete_all_cookies()
+        for cookie in cookies:
+            self.driver.add_cookie(cookie)
+        self.driver.refresh()
+
+    #? Scrolls
+
+    def scroll_by(self, x, y):
+        self.driver.execute_script(f"window.scrollTo({x}, {y})")
+
+    def scroll_to_bottom(self):
+        self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+
+    def scroll_to_top(self):
+        self.driver.execute_script("window.scrollTo(0, 0)")
+
+    def scroll_to_element(self, locator):
+        self.action.scroll_to_element(self.find(locator))
+        self.driver.execute_script("""
+        window.scrollTo({
+            top: window.scrollY + 500,
+        });
+        """)
