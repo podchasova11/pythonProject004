@@ -1,0 +1,60 @@
+IMAP требует полного совпадения слова в теме письма и по умолчанию не поддерживает частичное совпадение. Поэтому в subject нужно передавать вхождение целого слова.
+mailchecker.py
+import imaplib
+import email
+import time
+import re
+from email import message_from_bytes
+
+class Mailchecker:
+    # Конструктор класса, устанавливающий соединение с почтовым сервисом и, при необходимости, удаляющий письма с заданной темой
+    def __init__(self, login="akoledachkin@gmail.com", password="utyv slpq tgcj btio", email_service="imap.gmail.com", subject_for_deletion=""):
+        self.mail = imaplib.IMAP4_SSL(email_service)  # Создание защищенного IMAP соединения
+        self.mail.login(login, password)  # Вход в почтовый аккаунт
+        if subject_for_deletion:
+            self.delete_emails_with_subject(subject_for_deletion)  # Удаление писем с заданной темой, если она указана
+
+    # Метод для поиска электронных писем по части темы и содержимому, соответствующему регулярному выражению
+    def search_emails(self, partial_subject, regex_pattern, folder="inbox", timeout=90, check_frequency=1):
+        start_time = time.time()
+
+        while (time.time() - start_time) < timeout:
+            self.mail.select(folder)  # Выбор папки для поиска
+            query = f'(HEADER Subject "{partial_subject}")'  # Формирование запроса для поиска писем с частичным совпадением темы
+            result, data = self.mail.search(None, query)
+
+            if data[0]:
+                for email_id in data[0].split():
+                    result, data = self.mail.fetch(email_id, "(RFC822)")  # Получение данных письма
+                    msg = message_from_bytes(data[0][1])  # Преобразование данных письма в объект сообщения
+
+                    # Обработка многочастных писем
+                    if msg.is_multipart():
+                        for part in msg.walk():
+                            if part.get_content_type() in ['text/plain', 'text/html']:
+                                body = part.get_payload(decode=True).decode('utf-8', errors='ignore')
+                                match = re.search(regex_pattern, body, re.DOTALL)
+                                if match:
+                                    return match.group()
+                    else:
+                        body = msg.get_payload(decode=True).decode('utf-8', errors='ignore')
+                        match = re.search(regex_pattern, body, re.DOTALL)
+                        if match:
+                            return match.group()
+            time.sleep(check_frequency)  # Ожидание перед следующей проверкой
+        return None
+
+    # Метод для удаления писем с определенной темой
+    def delete_emails_with_subject(self, partial_subject, folder="inbox"):
+        self.mail.select(folder)  # Выбор папки
+        query = f'(SUBJECT "{partial_subject}")'  # Формирование запроса для поиска писем с полным совпадением темы
+        result, data = self.mail.search(None, query)
+        if result == 'OK':
+            for num in data[0].split():
+                self.mail.store(num, '+FLAGS', '\\Deleted')  # Пометка писем как удаленных
+            self.mail.expunge()  # Окончательное удаление помеченных писем
+Пример использования
+mail = Mailchecker(login="example@gmail.com", password="qwer slpq tgcj btio", subject_for_deletion="Something")
+subject = "Something"
+invitation_regex = r'https:\/\/app\.qase\.io\/signup\/confirm\?token=[a-f0-9]{64}'
+print(mail.search_emails(subject, invitation_regex))
