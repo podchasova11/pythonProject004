@@ -1,0 +1,51 @@
+stages:
+  - tests
+  - report
+
+variables:
+  LOGIN: $LOGIN
+  PASSWORD: $PASSWORD
+  SUITE: part_1
+
+run_tests:
+  stage: tests
+  image: python:3.12.0a4-alpine3.17
+  before_script: # Копирование истории
+    - apk add curl jq
+    - ARTIFACTS_URL="https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/jobs/artifacts/main/download?job=pages&job_token=$CI_JOB_TOKEN"
+    - curl --location --output artifacts.zip $ARTIFACTS_URL
+    - unzip artifacts.zip
+    - chmod -R 777 public
+    - mkdir -p allure-results && cp -r public/history allure-results
+  script: # Установка Allure + запуск тестов
+    - apk update
+    - apk add --no-cache curl openjdk11-jre
+    - curl -o allure-2.13.8.tgz -Ls https://repo.maven.apache.org/maven2/io/qameta/allure/allure-commandline/2.13.8/allure-commandline-2.13.8.tgz
+    - tar -zxvf allure-2.13.8.tgz -C /opt/
+    - ln -s /opt/allure-2.13.8/bin/allure /usr/bin/allure
+    - rm allure-2.13.8.tgz
+    - pip install -r requirements.txt
+    - pytest -sv -m=$SUITE --alluredir=allure-results || true
+    - echo "Branch=$CI_COMMIT_REF_NAME" > allure-results/environment.properties
+    - echo "Commit=$CI_COMMIT_SHORT_SHA" >> allure-results/environment.properties
+    - |
+      echo "{\"name\": \"GitLab CI\", \"type\": \"gitlab\", \"url\": \"$CI_PROJECT_URL\", \"buildOrder\": $CI_PIPELINE_ID, \"buildName\": \"$CI_COMMIT_REF_NAME\", \"buildUrl\": \"$CI_PROJECT_URL/pipelines/$CI_PIPELINE_ID\", \"reportUrl\": \"URL отчета\", \"reportName\": \"Отчет о тестировании\"}" > allure-results/executor.json
+  after_script: # Генерация аллюр-репорта
+    - allure generate allure-results --clean -o allure-report
+  artifacts:
+    paths:
+      - allure-report
+    when: always
+    expire_in: 10 days
+pages:
+  stage: report
+  needs:
+    - run_tests
+  script:
+    - mkdir public
+    - cp -r allure-report/* public
+  artifacts:
+    when: on_success
+    expire_in: never
+    paths:
+      - public
