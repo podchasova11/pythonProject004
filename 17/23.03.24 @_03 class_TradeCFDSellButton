@@ -9,7 +9,6 @@ from pages.Elements.testing_elements_locators import TradeCFDLocators
 from selenium.common.exceptions import ElementClickInterceptedException
 
 
-
 class TradeCFDSellButton(BasePage):
 
     def full_test(self, d, cur_language, cur_country, cur_role, cur_item_link):
