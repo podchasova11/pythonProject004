@@ -64,3 +64,36 @@ if phrase[::-1] == phrase:
     print("Palindrome")
 else:
     print("Not a palindrome")
+
+
+####################################################
+
+
+    @allure.step("Start test of button [Try demo] in Block 'Why choose Capital.com'")
+    @pytest.mark.test_103
+    def test_103_why_choose_block_try_demo_button(
+            self, worker_id, d, cur_language, cur_country, cur_role, cur_login, cur_password):
+        """
+        Check: Button [Try Demo] in Block 'Why choose Capital.com?' Main Page
+        Language: EN. License: FCA.
+        """
+        # test_title = ("00", "Main Page",
+        #               ".00_103", "Testing button [Try Demo] in Block 'Why choose Capital.com?' Main Page")
+
+        bid = build_dynamic_arg_v4(
+            d, worker_id, cur_language, cur_country, cur_role,
+            "00", "Main Page",
+            ".00_103", "Testing button [Try Demo] in Block 'Why choose Capital.com?' Main Page",
+            False, True
+        )
+
+        Common().check_language_in_list_and_skip_if_not_present(cur_language, [''])
+        Common().check_country_in_list_and_skip_if_not_present(cur_country, ['gb'])
+
+        page_conditions = NewConditions(d, "")
+        main_page_link = page_conditions.preconditions(
+            d, CapitalComPageSrc.URL_NEW, "", cur_language, cur_country, cur_role, cur_login, cur_password)
+
+        test_element = WhyChooseBlockTryDemoButton(d, main_page_link, bid)
+        test_element.full_test_with_tpi(d, cur_language, cur_country, cur_role, main_page_link)
+
