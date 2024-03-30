@@ -1,6 +1,5 @@
 # Два варианта локаторов
 
-
 class MenuUS01Markets:
     MENU_EN_GB_MARKETS = (By.CSS_SELECTOR, "#header a[href='/en-gb/markets']")
     MENU_MARKETS_EN_BUTTON = (By.CSS_SELECTOR,
