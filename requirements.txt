@@ -1,5 +1,4 @@
 # requirements.txt from Alexey Koledachkin
-
 aiofiles==23.2.1
 aiogram==2.23.1
 aiogram2==0.1.1
