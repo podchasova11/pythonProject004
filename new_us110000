@@ -1,5 +1,5 @@
 import allure
-import pytest
+#import pytest
 
 from pages.Elements.ButtonCreateAccountMainBanner import MainBannerCreateAccount
 from pages.Elements.ButtonStartTradingMainBanner import MainBannerStartTrading
