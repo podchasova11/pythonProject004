@@ -150,3 +150,9 @@ class TableTradingInstrumentsSellButton(BasePage):
 
         del sub_menu
         return d.current_url
+
+"""
+-*- coding: utf-8 -*-
+@Time    : 2023/03/06 11:30
+@Author  : podchasova11
+"""
