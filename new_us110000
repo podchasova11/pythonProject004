@@ -1,6 +1,7 @@
 import allure
 import pytest
 
+
 from pages.Elements.ButtonCreateAccountMainBanner import MainBannerCreateAccount
 from pages.Elements.ButtonStartTradingMainBanner import MainBannerStartTrading
 from pages.common import Common
