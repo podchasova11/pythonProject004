@@ -16,7 +16,6 @@ from src.src import CapitalComPageSrc
 class TestLearnToTrade:
     page_conditions = None
 
-
     @allure.step("Start test_11.00.00_01 of button [Open an account] on Main banner")
     @pytest.mark.test_01
     def test_01_main_banner_open_an_account_button(
