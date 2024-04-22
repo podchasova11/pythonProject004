@@ -1,19 +1,3 @@
-"""
--*- coding: utf-8 -*-
-@Time    : 2023/04/17 21:30
-@Author  : Mila Podchasova
-"""
-from datetime import datetime
-import pytest
-import allure
-
-from pages.Elements.AssertClass import AssertClass
-from pages.Signup_login.signup_login import SignupLogin
-from pages.base_page import BasePage
-from pages.Markets.markets_locators import HeaderElementLocators
-from selenium.common.exceptions import ElementClickInterceptedException
-
-
 class HeaderCFDCalculatorPageSignUpButton(BasePage):
 
     @allure.step(f"{datetime.now()}  Start Full test for 'Sign Up' button of Header")
