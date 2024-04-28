@@ -1,6 +1,6 @@
 from datetime import datetime
 
-importallure
+import allure
 from selenium.webdriver import ActionChains
 from selenium.common.exceptions import ElementClickInterceptedException
 
