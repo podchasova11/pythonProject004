@@ -46,3 +46,4 @@ class TableTradingInstrumentsSellButton(BasePage):
                 case "Auth":
                     check_element.assert_trading_platform_v4(d, cur_item_link, False, True, trade_instrument)
             counter += 1
+
