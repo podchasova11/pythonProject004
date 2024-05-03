@@ -20,3 +20,40 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from pages.Capital.capital_locators import OnTrustLocators, Captcha
 from pages.common import Common
+
+class HandleExcElementsDecorator(object):
+    """A decorator that handles exceptions related to elements on a webpage."""
+
+    def __init__(
+            self,
+            driver="self",
+            timeout=0.5,
+            title="title",
+            value="value",
+            property_atr="property",
+            method="a",
+            locator="b",
+            index=0,
+    ):
+        """Initializes the object.
+
+        Args:
+            driver: WebDriver. Defaults to 'self'.
+            timeout (optional): the time to wait for an element to be present on the
+            page before throwing a TimeoutException. Defaults to 0.5.
+            title (optional): the title of the page. Defaults to 'title'.
+            value (optional): the value to send to the element. Defaults to 'value'.
+            'property' (optional): the property of the element. Defaults to 'property'.
+            method (optional): used for locating the element on the page. Defaults to 'a'.
+            locator (optional): used with the specified method to find the element. Defaults to 'b'.
+            index (optional): extract all elements of the list of individual lines of text starting from the
+                ith element. Defaults to 0.
+        """
+        self.driver = driver
+        self.timeout = timeout
+        self.title = title
+        self.value = value
+        self.property_atr = property_atr
+        self.method = method
+        self.locator = locator
+        self.index = index
