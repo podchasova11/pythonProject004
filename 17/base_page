@@ -216,4 +216,21 @@ class BasePage:
         """
         return self.driver.find_element(method, locator)
 
+    @HandleExcElementsDecorator()
+    def elements_are_present(self, method, locator):
+        """
+        Find elements given a By method and locator.
 
+        Args:
+            method: used for locating the element on the page
+            locator: used with the specified method to find the element
+
+        Returns:
+            list[selenium.webdriver.remote.webelement.WebElement]:
+                list of found WebElement or empty if elements are not found
+        Raises:
+            NoSuchElementException: if the elements are not found on the page
+            StaleElementReferenceException: if the elements are no longer attached to the DOM
+            WebDriverException: if an error occurs while initializing the WebDriver
+        """
+        return self.driver.find_elements(method, locator)
