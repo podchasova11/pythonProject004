@@ -1,0 +1,19 @@
+import sys
+from datetime import datetime
+from random import randint
+
+import allure
+import pytest
+from selenium.webdriver import ActionChains
+
+from conf import QTY_LINKS
+from pages.Header.header_locators import HeaderElementLocators
+
+
+class Common:
+	flag_of_bug = False
+
+	@staticmethod
+	def save_current_screenshot(wd, name, type_of_file="PNG"):
+		print(f"{datetime.now()}   Save current screenshot into {type_of_file} file")
+		allure.attach(wd.get_screenshot_as_png(), name, allure.attachment_type.PNG)
