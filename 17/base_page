@@ -1,0 +1,22 @@
+import logging
+import time
+
+import allure
+from datetime import datetime
+
+import pytest
+from selenium.common.exceptions import (
+    NoSuchElementException,
+    TimeoutException,
+    WebDriverException,
+    NoSuchAttributeException,
+    ElementNotInteractableException,
+    InvalidElementStateException,
+    StaleElementReferenceException,
+)
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait as Wait
+from selenium.webdriver.support import expected_conditions as EC
+
+from pages.Capital.capital_locators import OnTrustLocators, Captcha
+from pages.common import Common
