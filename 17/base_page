@@ -57,3 +57,63 @@ class HandleExcElementsDecorator(object):
         self.method = method
         self.locator = locator
         self.index = index
+
+    def __call__(self, func):
+        """Define an inner function that wraps the original function or method.
+
+        Args:
+            func (function): the original function or method to be decorated.
+
+        Raises:
+            NoSuchElementException: if the elements are not found on the page
+            TimeoutException: when there is no match with at least one element even after wait time
+            NoSuchAttributeException: if the attribute of the elements is not found
+            ElementNotInteractableException: if the elements are not currently interactable
+            InvalidElementStateException: if the element are in an invalid state
+            StaleElementReferenceException: if the elements are no longer attached to the DOM
+            WebDriverException:  if an error occurs while initializing the WebDriver
+        """
+        decorator_self = self
+
+        def inner_function(*args, **kwargs):
+            self.driver = args[0].driver
+            try:
+                return func(*args, **kwargs)
+            except NoSuchElementException as e:
+                logging.error(
+                    f"Could not find elements on page: {decorator_self.driver.current_url}"
+                )
+                logging.exception(e.msg)
+            except TimeoutException as e:
+                logging.error(
+                    f"Elements not present after {decorator_self.timeout} "
+                    f"seconds on page: {decorator_self.driver.current_url}"
+                )
+                logging.exception(e.msg)
+            except NoSuchAttributeException as e:
+                logging.error(
+                    f"The attribute of elements could not be found on page: {decorator_self.driver.current_url}"
+                )
+                logging.exception(e.msg)
+            except ElementNotInteractableException as e:
+                logging.error(
+                    f"The element is not currently interactable on page: {decorator_self.driver.current_url}"
+                )
+                logging.exception(e.msg)
+            except InvalidElementStateException as e:
+                logging.error(
+                    f"The element is in an invalid state on page: {decorator_self.driver.current_url}"
+                )
+                logging.exception(e.msg)
+            except StaleElementReferenceException as e:
+                logging.error(
+                    f"The elements are no longer attached to the DOM on page: {decorator_self.driver.current_url}"
+                )
+                logging.exception(e.msg)
+            except WebDriverException as e:
+                logging.error("Unable to initialize WebDriver")
+                logging.exception(e.msg)
+
+        return inner_function
+
+
