@@ -234,3 +234,5 @@ class BasePage:
             WebDriverException: if an error occurs while initializing the WebDriver
         """
         return self.driver.find_elements(method, locator)
+
+
