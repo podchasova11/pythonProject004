@@ -117,3 +117,31 @@ class HandleExcElementsDecorator(object):
         return inner_function
 
 
+class BasePage:
+    """This class used as a base class for other page classes that represent specific pages on a website"""
+
+    def __init__(self, driver, link="", bid=""):
+        """
+        Initializes the object.
+
+        Args:
+            driver: WebDriver
+            link: URL
+            bid: ID bug
+        """
+        self.driver = driver
+        self.link = link
+        self.bid = bid
+
+    # @allure.step(f"Load page {self.link}")
+    def open_page(self):
+        """
+        Navigates to a page given by the URL.
+        """
+        print(f"{datetime.now()}   Current page URL = {self.driver.current_url}")
+        print(f"{datetime.now()}   self.link = {self.link}")
+        link = self.link
+        print(f"{datetime.now()}   driver.get({link}) =>")
+        self.driver.get(link)
+        time.sleep(1)
+        print(f"{datetime.now()}   => Loaded page {self.driver.current_url}")
