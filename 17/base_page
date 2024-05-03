@@ -183,3 +183,37 @@ class BasePage:
         print(f"{datetime.now()}   => Accepted All Cookies")
         time.sleep(0.5)
 
+    @allure.step(f"{datetime.now()}   Reject all cookies")
+    @HandleExcElementsDecorator()
+    def button_reject_all_cookies_click(self):
+        print(f"\n"
+              f"{datetime.now()}   Is visible BUTTON_REJECT_ALL_COOKIE? =>")
+        self.element_is_visible(OnTrustLocators.BUTTON_REJECT_ALL_COOKIE, 30)
+        print(f"{datetime.now()}   Find BUTTON_REJECT_ALL_COOKIE =>")
+        button = self.driver.find_element(*OnTrustLocators.BUTTON_REJECT_ALL_COOKIE)
+        print(f"{datetime.now()}   Is clickable BUTTON_REJECT_ALL_COOKIE? =>")
+        self.element_is_clickable(button, 30)
+        time.sleep(1)
+        print(f"{datetime.now()}   Click BUTTON_REJECT_ALL_COOKIE =>")
+        button.click()
+        print(f"{datetime.now()}   => Rejected All Cookies")
+
+    @HandleExcElementsDecorator()
+    def element_is_present(self, method, locator):
+        """
+        Find an element given a By method and locator.
+
+        Args:
+            method: used for locating the element on the page
+            locator: used with the specified method to find the element
+
+        Returns:
+            bool: True if the element is located in a page. False if the element could not be found
+        Raises:
+            InvalidElementStateException: if the element is in an invalid state
+            NoSuchElementException: if the element cannot be found on the page
+            WebDriverException:  if an error occurs while initializing the WebDriver
+        """
+        return self.driver.find_element(method, locator)
+
+
