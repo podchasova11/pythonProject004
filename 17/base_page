@@ -145,3 +145,41 @@ class BasePage:
         self.driver.get(link)
         time.sleep(1)
         print(f"{datetime.now()}   => Loaded page {self.driver.current_url}")
+
+    @HandleExcElementsDecorator()
+    def button_accept_all_cookies_click(self):
+        allure.step(f"{datetime.now()}   Start Accepting all cookies")
+
+        time_out = 30
+        print(f"\n{datetime.now()}   Step 'Click button [Accept all cookies]'")
+
+        # self.is_captcha()
+
+        print(f"{datetime.now()}   Is Visible Button [Accept all cookies]? =>")
+        button = self.element_is_visible(OnTrustLocators.BUTTON_ACCEPT_ALL_COOKIE, time_out)
+        if not button:
+            print(f"{datetime.now()}   => Button [Accept all cookies] is not visible after {time_out} sec.")
+            print(f"{datetime.now()}   => Cur url = {self.driver.current_url}")
+            assert False, f"Button [Accept all cookies] is not visible after {time_out} sec."
+        else:
+            print(f"{datetime.now()}   => Button [Accept all cookies] is visible")
+
+        time.sleep(0.5)
+
+        print(f"{datetime.now()}   Is clickable Button [Accept all cookies] =>")
+        button = self.driver.find_element(*OnTrustLocators.BUTTON_ACCEPT_ALL_COOKIE)
+        button = self.element_is_clickable(button, time_out)
+        if not button:
+            print(f"{datetime.now()}   => Button [Accept all cookies] is not clickable after {time_out} sec.")
+            print(f"{datetime.now()}   => Cur url = {self.driver.current_url}")
+            assert False, f"Button [Accept all cookies] is not clickable after {time_out} sec."
+        else:
+            print(f"{datetime.now()}   => Button [Accept all cookies] is clickable")
+
+        print(f"{datetime.now()}   Click Button [Accept all cookies] =>")
+        button = self.driver.find_element(*OnTrustLocators.BUTTON_ACCEPT_ALL_COOKIE)
+        button.click()
+        print(f"{datetime.now()}   => Button [Accept all cookies] is clicked")
+        print(f"{datetime.now()}   => Accepted All Cookies")
+        time.sleep(0.5)
+
