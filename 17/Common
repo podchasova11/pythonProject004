@@ -29,3 +29,11 @@ class Common:
 		if cur_language in list_languages:
 			pytest.skip(f"This test is not for '{cur_language}' language")
 		return
+
+
+	@staticmethod
+	def check_language_in_list_and_skip_if_not_present(cur_language, list_languages):
+		if cur_language not in list_languages:
+			pytest.skip(f"This test is not for '{cur_language}' language")
+		return
+
