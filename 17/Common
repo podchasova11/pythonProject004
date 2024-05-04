@@ -24,3 +24,8 @@ class Common:
 			pytest.skip("Current test case not available for the Eng language and FCA license")
 
 
+	@staticmethod
+	def check_language_in_list_and_skip_if_present(cur_language, list_languages):
+		if cur_language in list_languages:
+			pytest.skip(f"This test is not for '{cur_language}' language")
+		return
