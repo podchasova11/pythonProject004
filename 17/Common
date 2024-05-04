@@ -160,3 +160,61 @@ class Common:
 		assert True, msg
 
 
+	@staticmethod
+	def browser_back_to_link_and_test_fail(driver, test_link, msg):
+		Common().save_current_screenshot(driver, str(datetime.now()))
+
+		do = True
+		while do:
+			driver.back()
+			print(f"{datetime.now()}   => Driver.backed")
+			if driver.current_url == test_link:
+				do = False
+
+		Common.flag_of_bug = True
+		assert False, msg
+
+	@staticmethod
+	def browser_back_to_link(wd, test_link):
+		count = 5
+		do = True
+		while do:
+			wd.back()
+			print(f"{datetime.now()}   => Driver.back")
+			print(wd.current_url)
+			count -= 1
+			if wd.current_url == test_link or count == 0:
+				do = False
+
+	@staticmethod
+	def assert_true_false(condition=False, msg=""):
+		if condition:
+			Common.flag_of_bug = False
+			assert True, msg
+		else:
+			Common.flag_of_bug = True
+			assert False, msg
+
+	@staticmethod
+	def move_pointer_to_capital_com_label(wd):
+		elements = wd.find_elements(*HeaderElementLocators.MAIN_LOGO_CAPITAL_COM)
+		if len(elements) == 0:
+			elements = wd.find_elements(*HeaderElementLocators.MAIN_LOGO_NEW_CAPITAL_COM)
+			if len(elements) == 0:
+				msg = "Problem with capital.com logo"
+				Common().pytest_fail(f"Bug # ???   {msg}")
+
+		ActionChains(wd) \
+			.move_to_element(elements[0]) \
+			.perform()
+		print(f"{datetime.now()}   => Focus moved to 'capital*com' logo")
+
+	@staticmethod
+	def pytest_fail(msg):
+		Common.flag_of_bug = True
+		pytest.fail(msg)
+
+	@staticmethod
+	def pytest_skip(msg):
+		Common.flag_of_bug = False
+		pytest.skip(msg)
