@@ -147,4 +147,16 @@ class Common:
 
 		return list_item_link
 
+	@staticmethod
+	def browser_back_to_link_and_test_pass(driver, test_link, msg):
+		do = True
+		while do:
+			driver.back()
+			print(f"{datetime.now()}   => Driver.backed")
+			if driver.current_url == test_link:
+				do = False
+
+		Common.flag_of_bug = False
+		assert True, msg
+
 
