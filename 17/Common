@@ -61,4 +61,6 @@ class Common:
 			pytest.skip(f"This test is not for '{cur_country}' country")
 		return
 
-
+	@staticmethod
+	def skip_test_for_language(cur_language) -> None:
+		pytest.skip(f"This test-case is not for {cur_language} language")
