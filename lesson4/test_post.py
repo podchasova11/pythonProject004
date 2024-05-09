@@ -4,7 +4,6 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 
-
 class TestDependens:
     @pytest.fixture(scope="session")
     def driver():
