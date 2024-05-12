@@ -26,7 +26,7 @@ class TableTradingInstrumentsSellButton(BasePage):
         print(f"\n{datetime.now()}   Random indexes = {random_indexes}")
         counter = 0
         for i, index in enumerate(random_indexes):
-            # if counter:
+            
            
             print(f"\n{datetime.now()}   Testing Table Widget Trading Instruments {i + 1} random element with {index} index")
             trade_instrument = self.element_click(index)
