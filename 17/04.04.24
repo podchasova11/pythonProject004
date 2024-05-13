@@ -2,7 +2,6 @@ from datetime import datetime
 import allure
 from selenium.webdriver import ActionChains
 from selenium.common.exceptions import ElementClickInterceptedException
-
 from pages.Signup_login.signup_login import SignupLogin
 from pages.base_page import BasePage
 from pages.common import Common
