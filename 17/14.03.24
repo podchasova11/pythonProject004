@@ -1,7 +1,4 @@
-"""
--*- coding: utf-8 -*-
-@Time    : 2023/03/06 11:30
-@Author  
+
 import random
 from datetime import datetime
 
