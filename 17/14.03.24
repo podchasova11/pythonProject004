@@ -1,6 +1,7 @@
 import random
 from datetime import datetime
 
+
 import pytest
 import allure
 from selenium.common import ElementNotInteractableException
