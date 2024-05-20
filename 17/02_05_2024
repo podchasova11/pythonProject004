@@ -64,3 +64,27 @@ class TestCFDCalculator:
         Common().check_country_in_list_and_skip_if_present(cur_country, ["gb"])
         Common().check_language_in_list_and_skip_if_not_present(cur_language, ["en"])
         Common().check_role_in_list_and_skip_if_present(cur_role, ["Auth"])
+
+class Person:
+    def __init__(self, firstname='Иван', lastname='Петров', age=250, country='Россия', city='Урюпинск'):
+        self.firstname = firstname
+        self.lastname = lastname
+        self.age = age
+        self.country = country
+        self.city = city
+        self.skills = []
+
+    def person_info(self):
+        return f'{self.firstname} {self.lastname} - это человек, которому {self.age} лет. Он живет в городе {self.city}, {self.country}.'
+    def add_skill(self, skill):
+        self.skills.append(skill)
+
+p1 = Person()
+print(p1.person_info())
+p1.add_skill('HTML')
+p1.add_skill('CSS')
+p1.add_skill('JavaScript')
+p2 = Person('Денис', 'Никифоров', 30, 'Россия', 'Пермь')
+print(p2.person_info())
+print(p1.skills)
+print(p2.skills)
