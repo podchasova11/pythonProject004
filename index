@@ -24,4 +24,3 @@ class QRCodeLocators:
     QR_CODE_EASY_LEARNING_LINK = (By.CSS_SELECTOR, "#qr_cfd_new2")
     QR_CODE_CAPITAL_LINK = (By.CSS_SELECTOR, "#qr_cfd")
 
-
