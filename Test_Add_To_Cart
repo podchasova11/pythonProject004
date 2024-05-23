@@ -1,0 +1,61 @@
+# Пример тест-кейса для добавления товара в корзину
+import pytest
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+@pytest.fixture(scope="module")
+def driver():
+    driver = webdriver.Chrome()  # Или используйте другой драйвер, например, Firefox
+    driver.implicitly_wait(10)  # Неявное ожидание
+    yield driver
+    driver.quit()
+
+def test_add_to_cart(driver):
+    # Предусловия: Открыть главную страницу сайта и авторизоваться
+    driver.get("https://capital.com/cfd-calculator")  # Замените на URL вашей главной страницы
+
+    # Пример кода для авторизации, если это требуется
+    # login_button = driver.find_element(By.ID, "login_button_id")
+    # login_button.click()
+    # username = driver.find_element(By.ID, "username")
+    # password = driver.find_element(By.ID, "password")
+    # username.send_keys("example_username")
+    # password.send_keys("example_password")
+    # login_submit = driver.find_element(By.ID, "login_submit")
+    # login_submit.click()
+
+    # Шаг 1: Перейти на страницу товара
+    product_link = driver.find_element(By.CSS_SELECTOR, "a.product-link")  # Замените на правильный селектор
+    product_link.click()
+
+    # Шаг 2: Нажать кнопку "Добавить в корзину"
+    add_to_cart_button = driver.find_element(By.ID, "add_to_cart_button_id")  # Замените на правильный селектор
+    add_to_cart_button.click()
+
+    # Ожидаем, что товар добавлен в корзину (например, появится уведомление или изменится количество товаров в корзине)
+    WebDriverWait(driver, 10).until(
+        EC.text_to_be_present_in_element(
+            (By.CSS_SELECTOR, "div.cart-count"),  # Замените на правильный селектор
+            "1"
+        )
+    )
+
+    # Шаг 3: Перейти на страницу корзины
+    cart_link = driver.find_element(By.ID, "cart_link_id")  # Замените на правильный селектор
+    cart_link.click()
+
+    # Ожидаемый результат: Товар отображается в корзине, количество товаров и общая стоимость обновлены
+    cart_items = driver.find_elements(By.CSS_SELECTOR, "div.cart-item")  # Замените на правильный селектор
+    assert len(cart_items) == 1
+
+    cart_total = driver.find_element(By.CSS_SELECTOR, "div.cart-total")  # Замените на правильный селектор
+    assert "total amount" in cart_total.text.lower()  # Пример проверки суммы, замените на конкретную сумму, если необходимо
+
+    notification = driver.find_element(By.CSS_SELECTOR, "div.notification")  # Замените на правильный селектор
+    assert "added to cart" in notification.text.lower()  # Пример проверки уведомления
+
+if __name__ == "__main__":
+    pytest.main()
