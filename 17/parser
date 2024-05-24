@@ -1,0 +1,25 @@
+import argparse
+
+# Создаем парсер аргументов командной строки
+parser = argparse.ArgumentParser(description='Process command line arguments')
+
+# Добавляем опции командной строки
+parser.add_argument('--retest', action='store_true', help="Re-Testing")
+parser.add_argument('--browser_name', type=str, help="Choose browser")
+parser.add_argument('--lang', type=str, help="Choose language")
+parser.add_argument('--country', type=str, help="Choose country")
+parser.add_argument('--role', type=str, help="Choose role")
+parser.add_argument('--tpi_link', type=str, help="cur_item_link")
+parser.add_argument('--os', type=str, help="os")
+
+# Разбираем аргументы командной строки
+args = parser.parse_args()
+
+# Выводим значения аргументов
+print("Retest:", args.retest)
+print("Browser Name:", args.browser_name)
+print("Language:", args.lang)
+print("Country:", args.country)
+print("Role:", args.role)
+print("TPI Link:", args.tpi_link)
+print("OS:", args.os)
