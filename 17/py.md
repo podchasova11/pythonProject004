@@ -3,7 +3,7 @@ Python Interview Preparation
 What's an object? An object in a object-oriented programming language is an entity that contains data along with some methods for operations related to that data.
 Everything from numbers, lists, strings, functions and classes are python objects.
 
->>> a = 10.5
+```>>> a = 10.5
 >>> a.is_integer() # Float type has is_integer() method cause a is an object of float class
 False
 >>> type(a)
@@ -17,7 +17,7 @@ Look at the below example
 
 >>> var = 'Tom' # Object 'Tom' is created in memory and name 'var' is binded to it. 
 >>> var = 'Harry' # Another object is created however note that name 'var' is now binded to 'Harry' but 'Tom' is still somewhere in memory and is unaffected.
-Ref: Nina Zakharenko - Memory Management in Python - The Basics - PyCon 2016
+Ref: Nina Zakharenko - Memory Management in Python - The Basics - PyCon 2016```
 
 2. What is mutable and immutable objects/data types in Python?
 Mutation generally refers to 'change'. So when we say that an object is mutable or immutable we meant to say that the value of object can/cannot change.
