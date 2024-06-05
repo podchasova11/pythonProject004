@@ -1,0 +1,23 @@
+# Автоматическое преобразование типов
+from pydentic import BaseModel
+
+
+class UserModel(BaseModel):
+    id: int
+    name: str
+    status: str
+    admin: bool
+
+
+response =  {
+    "id": 145
+    "name": "Ivan"
+    "Status": "active"
+    "admin": True
+} 
+
+
+user = UserModel(**response) # распаковка для json
+# user = UserModel(**response.json()) # распаковка для API
+print(user)
+    
