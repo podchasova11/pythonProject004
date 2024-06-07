@@ -1,0 +1,26 @@
+Py/TC_55!027 | Menu [Ways to trade] > CFD Trading Page > Block  "Why trade CFDs with Capital.com?" > Check the Icon in Item [Trade CFDs on margin]
+1. ID: TC_55!027
+2. Description:
+TC_55!027 | Menu [Ways to trade] > CFD Trading Page > Block "Why trade CFDs with Capital.com?" > Check the Icon in Item [Trade CFDs on margin]
+Parameters:
+Language: EN
+License: FCA
+Role: All
+Menu [Ways to trade]: Page [CFD Trading]
+Item [Trade CFDs on margin]
+3. Preconditions and parameters:
+The user is on the main page of Capital.com.
+The Language {Parameter} is selected 
+The country {Parameter} is selected
+The role {Parameter} is selected
+Page [CFD Trading] in the Menu [Ways to trade]
+Block "Why trade CFDs with Capital.com?"
+4.  Steps:
+        Check the Icon in Item [Trade CFDs on margin]
+5. Expected result:
+For All user role:
+The page is opened  https://capital.com/en-gb in which there are:
+Page title “CFD Trading on Global Markets | Capital.com"
+Logo element "Capital" is present on the page
+6. Postconditions:
+Return to the main page www.capital.com
