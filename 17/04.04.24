@@ -9,7 +9,6 @@ from pages.Elements.AssertClass import AssertClass
 from pages.Elements.testing_elements_locators import PageTradingInstrumentMarketsLocators
 
 
-
 class PageInstrumentLongPositionGoToPlatformButton(BasePage):
 
     @allure.step(f"{datetime.now()}   Start test for button [Go to platform] on trading instrument page")
