@@ -55,3 +55,27 @@ pages/Menu/menu_new.py
 
         return d.current_url
     ##############################    
+
+    @allure.step(f"{datetime.now()}.   Check that Footer is opened on page [Professional]")
+    def check_that_footer_is_opened(self, d, test_language, footer_locator):
+        """
+        Check that Footer is opened on the page [Professional]
+        """
+
+        footer = d.find_elements(*footer_locator)
+        if len(footer) == 0:
+            pytest.fail("Bug #034! The footer is missing on click menu item [Professional] "
+                        "of the menu section [Ways to trade]")
+
+        self.driver.execute_script(
+            'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+            footer[0]
+        )
+
+        print(f"{datetime.now()}   FOOTER_RISK_WARNING_BLOCK is visible? =>")
+        if self.element_is_visible(MainMenu.FOOTER_RISK_WARNING_BLOCK):
+            print(f"{datetime.now()}   => FOOTER_RISK_WARNING_BLOCK is visible on the page!")
+        else:
+            print(f"{datetime.now()}   => FOOTER_RISK_WARNING_BLOCK is not visible on the page!")
+            pytest.fail("Bug #034! The footer is missing on click menu item [Professional] "
+                        "of the menu section [Ways to trade]")
