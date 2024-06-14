@@ -1,0 +1,16 @@
+pages/Menu/menu_new.py
+    
+    @allure.step('Select Way_to_trade menu, Professional submenu, check that footer is displaed')
+    def check_that_footer_displayed_on_professional_page(self, d, cur_language, cur_country, link):
+        print(f'\n{datetime.now()}   START Open "Way_to_trade" menu, "Professional" submenu =>')
+        print(f"\n{datetime.now()}   1. Cur URL = {d.current_url}")
+        print(f"\n{datetime.now()}   2. Link = {link}")
+        if not self.current_page_is(link):
+            self.link = link
+            self.open_page()
+
+        self.main_menu_move_focus(d, cur_language, self.MENU_WAYS_TO_TRADE)
+        self.sub_menu_move_focus_click(d, cur_language, self.SUB_MENU_WAYS_TO_TRADE_PROFESSIONAL)
+        self.check_that_footer_is_opened(d, cur_language, self.FOOTER_RISK_WARNING_BLOCK)
+
+        print(f"\n{datetime.now()}   3. Cur URL = {d.current_url}")
