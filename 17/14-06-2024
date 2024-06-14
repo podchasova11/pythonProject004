@@ -14,3 +14,29 @@ pages/Menu/menu_new.py
         self.check_that_footer_is_opened(d, cur_language, self.FOOTER_RISK_WARNING_BLOCK)
 
         print(f"\n{datetime.now()}   3. Cur URL = {d.current_url}")
+#######################
+    @allure.step(f"{datetime.now()}.   Click 'Markets' menu section.")
+    def main_menu_move_focus(self, d, test_language, main_menu_locator):
+
+        menu = d.find_elements(*main_menu_locator)
+        if len(menu) == 0:
+            print(f"{datetime.now()}   => Main Menu not present")
+            allure.attach(self.driver.get_screenshot_as_png(), "scr_qr", allure.attachment_type.PNG)
+            pytest.skip(f"Main menu not present for '{test_language}' language")
+        print(f"{datetime.now()}   => Main menu is present")
+
+        if not self.element_is_visible(main_menu_locator, 5):
+            print(f"{datetime.now()}   => Main menu not visible")
+            pytest.fail("Main menu not visible")
+        print(f"{datetime.now()}   => Main menu is visible")
+
+        time.sleep(0.5)
+        menu = d.find_elements(*main_menu_locator)  # not Glossary
+        ActionChains(d) \
+            .move_to_element(menu[0]) \
+            .pause(0.5) \
+            .perform()
+
+        del menu
+        print(f"{datetime.now()}   => Markets menu focus moved")
+################
