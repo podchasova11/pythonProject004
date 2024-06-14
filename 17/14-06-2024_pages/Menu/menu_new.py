@@ -40,3 +40,18 @@ pages/Menu/menu_new.py
         del menu
         print(f"{datetime.now()}   => Markets menu focus moved")
 ################
+    @allure.step(f"{datetime.now()}.   Focus move to 'Markets [Forex]' menu item and click (US_11.01.02).")
+    def sub_menu_move_focus_click(self, d, test_language, sub_menu_locator):
+
+        sub_menu = d.find_elements(*sub_menu_locator)
+        if len(sub_menu) == 0:
+            pytest.skip(f"Sub menu not present for '{test_language}' language")
+
+        ActionChains(d) \
+            .move_to_element(sub_menu[0]) \
+            .pause(0.5) \
+            .click() \
+            .perform()
+
+        return d.current_url
+    ##############################    
