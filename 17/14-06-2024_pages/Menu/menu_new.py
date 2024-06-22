@@ -1,4 +1,3 @@
-
 pages/Menu/menu_new.py
     
     @allure.step('Select Way_to_trade menu, Professional submenu, check that footer is displaed')
