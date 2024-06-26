@@ -1,0 +1,71 @@
+    @allure.step('Select "Ways to trade" menu, "Professional" submenu')
+    def open_ways_to_trade_professional_menu(self, d, cur_language, cur_country, link):
+        print(f"\n{datetime.now()}   1. Cur URL = {d.current_url}")
+        print(f"\n{datetime.now()}   2. Link = {link}")
+        if not self.current_page_is(link):
+            self.link = link
+            self.open_page()
+
+        self.menu_ways_to_trade_move_focus(d, cur_language, cur_country)
+        self.sub_menu_professional_move_focus_click(d, cur_language, cur_country)
+        Common().move_pointer_to_capital_com_label(d)
+        Common.flag_of_bug = False
+
+        print(f"\n{datetime.now()}   3. Cur URL = {d.current_url}")
+        return d.current_url
+
+    @allure.step("Move focus to 'Ways to trade' menu section")
+    def menu_ways_to_trade_move_focus(self, d, test_language, test_country):
+        menu_locator = None
+        if test_country == "gb" and test_language == "":
+            menu_locator = MenuUS55WaysToTrade.MENU_WAYS_TO_TRADE
+
+        time.sleep(0.5)
+        menu = d.find_elements(*menu_locator)
+        if len(menu) == 0:
+            print(f"{datetime.now()}   => 'Ways to trade' menu not present")
+            # allure.attach(self.driver.get_screenshot_as_png(), "scr_qr", allure.attachment_type.PNG)
+            Common().pytest_fail(f"Bug # ? 'Ways to trade' menu not present for '{test_language}' language")
+        print(f"{datetime.now()}   => 'Ways to trade' menu is present")
+
+        self.driver.execute_script(
+            'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+            menu[0]
+        )
+
+        element = self.element_is_visible(menu_locator, 5)
+        if not element:
+            print(f"{datetime.now()}   => 'Ways to trade' menu not visible")
+            Common().pytest_fail("Bug # ? 'Ways to trade' menu not visible")
+        print(f"{datetime.now()}   => 'Ways to trade' menu is visible")
+
+        time.sleep(0.5)
+        menu = d.find_elements(*menu_locator)
+        ActionChains(d) \
+            .move_to_element(menu[0]) \
+            .pause(0.5) \
+            .perform()
+
+        del menu
+        del element
+        print(f"{datetime.now()}   => Focus moved to 'Ways to trade' menu")
+
+    @allure.step("Focus move to 'Professional' menu item and click")
+    def sub_menu_professional_move_focus_click(self, d, test_language, test_country):
+        sub_menu = list()
+        match test_language:
+            case "":
+                sub_menu = d.find_elements(*MenuUS55WaysToTrade.SUB_MENU_WAYS_TO_TRADE_PROFESSIONAL)
+
+        if len(sub_menu) == 0:
+            Common().pytest_fail(
+                f"Bug # ??? For test language '{test_language}' "
+                f"the page \"Ways to trade > Menu item [Professional]\" doesn't exist on production")
+
+        ActionChains(d) \
+            .move_to_element(sub_menu[0]) \
+            .pause(0.5) \
+            .click() \
+            .perform()
+
+        return d.current_url
