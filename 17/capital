@@ -1,0 +1,58 @@
+import time
+import allure
+import pytest
+
+from selenium.webdriver import ActionChains
+
+from datetime import datetime
+from pages.base_page import BasePage
+from pages.Header.header import Header
+from src.src import (
+    TradingViewPageSrc,
+    ESGPageSrc,
+)
+from pages.Capital.capital_locators import (
+    CapitalPageLocators,
+    MainBanner,
+    WidgetStillLookingFor,
+    WidgetPromoMarket,
+    WidgetTradingInstrument,
+    WidgetExploreOurPlatform,
+    WidgetNewToTrading,
+    WidgetTradingCalculator,
+    WidgetTradersDashboard,
+    BannerOfCounters,
+    MainBannerDe,
+    WhyCapitalDe,
+    # BannerNewToTrading,
+)
+from pages.Signup_login.signup_login_locators import (
+    # SignupFormLocators,
+    LoginFormLocators,
+)
+from pages.Elements.testing_elements_locators import ButtonsOnPageLocators
+
+class Capital(BasePage):
+
+    # Check that this page has a Header
+    @allure.step(f"{datetime.now()}. Checking if the page has a Header.")
+    def check_that_cur_page_has_header(self):
+        # assert self.element_is_located(*ProductsPageLocators.SHOP_CART_LINK)
+        assert self.element_is_visible(CapitalPageLocators.HEADER_OF_CAPITAL_COM)
+
+    # авторизация пользователя
+    @allure.step(f"{datetime.now()}. Checking if the page has a Header.")
+    def to_do_authorization(self, d, test_link, test_login, test_password):
+
+        assert test_login != "", "Авторизация невозможна. Не указан e-mail"
+        assert test_password != "", "Авторизация невозможна. Не указан пароль"
+        # нажать в хедере на кнопку "Log in"
+        page = Header(d, test_link)
+        page.header_button_login_click()
+
+        # User's name is passed to the text element on the login page
+        self.send_keys(test_login, *LoginFormLocators.LOGIN_INPUT_EMAIL)
+        # Password is passed to the text element on the login page
+        self.send_keys(test_password, *LoginFormLocators.LOGIN_INPUT_PASSWORD)
+        self.click_button(*LoginFormLocators.LOGIN_CONTINUE)
+        time.sleep(2)
