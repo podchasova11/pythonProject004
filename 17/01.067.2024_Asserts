@@ -20,6 +20,24 @@
 
 #################################################################################################
 
+   @HandleExcElementsDecorator()
+    @allure.step(f"{datetime.now()}   Check that the page has the expected title - ver 2")
+    def should_be_page_title_v2(self, title):
+        """
+        Check that the page has the expected title.
+
+        Args:
+            title: expected page's title
+        """
+        print(f"\n{datetime.now()}"
+              f"   1. Checking that the Trading platform (or TradingView site) page has valid title =>")
+        el_title = self.driver.title
+        print(f"{datetime.now()}   => The title of current page is '{el_title}'")
+        # Checks that the page title meets the requirements
+        if title not in el_title:
+            msg = f"Bug # ??? Expected title '{title}' but got '{el_title}' on page: {self.driver.current_url}"
+            Common().assert_true_false(False, msg)
+
 
 
 @HandleExcElementsDecorator()
