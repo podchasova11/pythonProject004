@@ -39,6 +39,20 @@
             Common().assert_true_false(False, msg)
 
 
+    def should_be_platform_logo(self):
+        """Check that the Capital.com Logo is present"""
+        allure.step(f"{datetime.now()}   Check that the Logo element is present on the page")
+
+        print(f"\n{datetime.now()}   2. Checking that the LOGO is present on the page =>")
+        if not self.element_is_visible(TopBarLocators.LOGO, 10):
+            msg = "'capital*com' logo is not present on the current page"
+            print(f"{datetime.now()}   => {msg}")
+            Common().assert_true_false(False, msg)
+        print(f"{datetime.now()}   => 'capital*com' logo is present on the current page")
+
+################################################################################################################################################################
+
+
 
 @HandleExcElementsDecorator()
     @allure.step(f"{datetime.now()}   Check that the page has the expected title - ver 3")
