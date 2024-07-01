@@ -18,6 +18,56 @@
             self.should_be_page_title_v2(data["PAGE_TITLE"])
             self.should_be_platform_logo()
 
+            print(f"\n{datetime.now()}   tpd = {tpd}")
+            if tpd:
+                self.should_be_platform_demo_mode(d, test_link)
+                print(f"{datetime.now()}   => The page with {self.driver.current_url} url was opened in DEMO mode")
+            # else:
+            #     self.should_be_trading_platform_live_mode(d, test_link)
+            #     print(f"{datetime.now()}   => The page with {self.driver.current_url} url was opened in lIVE mode")
+
+            if tpi:
+                print(f"\n{datetime.now()}   4. Check that opened page with {self.driver.current_url} url\n"
+                      f"with selected corresponding trading instrument '{trade_instrument}' =>")
+                self.should_be_corresponding_trading_instrument(test_link, trade_instrument)
+
+            # assert True, 'Trading platform with title "Trading Platform | Capital.com" opened'
+            msg = 'Trading platform with title "Trading Platform | Capital.com" opened'
+            Common.browser_back_to_link_and_test_pass(d, test_link, msg)
+        else:
+            print(f"{datetime.now()}   Checking way # 2 =>")
+            self.should_be_page_title_v2(data["PAGE_TITLE"])
+            self.should_be_platform_logo()
+            print(f"{datetime.now()}   tpd = {tpd}")
+            if tpd:
+                print(f"{datetime.now()}   => Loaded page {self.driver.current_url} with not {platform_url} url")
+                # проверка бага для ретеста
+
+                print(f'\nBug: {self.bid}')
+                retest_table_fill(d, self.bid, '09', self.link)
+
+                # assert False, (f"Bug # 9. Loaded page with {cur_url} url, but expected the Trading platform in"
+                #                f"Demo mode(timeout=15c)")
+                Common.flag_of_bug = True
+                msg = (f"Bug # 9. Loaded page with {cur_url} url, "
+                       f"but expected the Trading platform in Demo mode (timeout=15c)")
+                assert False, msg
+                # Common().browser_back_to_link_and_test_fail(self.driver, test_link, msg)
+            else:
+                print(f"{datetime.now()}   => Loaded page {cur_url} with not {platform_url} url")
+                # проверка бага для ретеста
+
+                print(f'\nBug: {self.bid}')
+                retest_table_fill(d, self.bid, '10', self.link)
+
+                # assert False, (f"Bug # 10. Loaded page with {cur_url} url, but expected the Trading platform in"
+                #                f"Live mode(timeout=15c)")
+                Common.flag_of_bug = True
+                msg = (f"Bug # 10. Loaded page with {cur_url} url, "
+                       f"but expected the Trading platform in Live mode (timeout=15c)")
+                assert False, msg
+                # Common().browser_back_to_link_and_test_fail(self.driver, test_link, msg)
+
 #################################################################################################
 
    @HandleExcElementsDecorator()
