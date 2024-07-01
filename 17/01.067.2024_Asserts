@@ -1,0 +1,19 @@
+    @allure.step("Checking that the trading platform page has opened - ver 4")
+    def should_be_trading_platform_page_v4(self, d, test_link, tpd, tpi, trade_instrument):
+        """
+        Check if the trading platform page for the corresponding trade instrument is opened
+        Args:
+            d: Webdriver
+            test_link: Link in the list of 3 random items and start page of the sidebar
+            tpd: open Trade platform in Demo mode (True). Live mode (False)
+            tpi: open Trade platform for corresponding trade instrument (False)
+            trade_instrument: corresponding trade instrument (False)
+        """
+
+        print(f"{datetime.now()}   Checking that the trading platform page has opened (v4) =>")
+        platform_url = data["PLATFORM_URL/"]
+        cur_url = self.driver.current_url
+        if self.wait_for_target_url(platform_url, 10):
+            print(f"{datetime.now()}   Checking way # 1 => ")
+            self.should_be_page_title_v2(data["PAGE_TITLE"])
+            self.should_be_platform_logo()
