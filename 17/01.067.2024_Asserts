@@ -17,3 +17,29 @@
             print(f"{datetime.now()}   Checking way # 1 => ")
             self.should_be_page_title_v2(data["PAGE_TITLE"])
             self.should_be_platform_logo()
+
+#################################################################################################
+
+
+
+@HandleExcElementsDecorator()
+    @allure.step(f"{datetime.now()}   Check that the page has the expected title - ver 3")
+    def should_be_page_title_v3(self, expected_title):
+        """
+        Check that the page has the expected title.
+
+        Args:
+            expected_title: expected page's title
+        """
+        print(f"\n{datetime.now()}"
+              f"   Checking that the page has expected title =>")
+        current_title = self.driver.title
+        print(f"{datetime.now()}   The title of current page is '{current_title}'")
+        print(f"{datetime.now()}   The expected title is '{expected_title}'")
+        # Check that the page title meets the requirements
+        Common().assert_true_false(
+            expected_title in current_title,
+            f"{datetime.now()}   "
+            f"=> Expected title '{expected_title}' but got '{current_title}' on page: {self.driver.current_url}\n"
+        )
+        print(f"{datetime.now()}   => The page has expected title.\n")
