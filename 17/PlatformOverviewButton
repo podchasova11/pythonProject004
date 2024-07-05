@@ -1,0 +1,133 @@
+"""
+-*- coding: utf-8 -*-
+@Time    : 2024/06/18 10:20
+@Author  : podchasova11
+"""
+from pages.BugsManual.bug_029 import WebTradingPlatformPage
+from src.src import CapitalComPageSrc, InvestmateApp
+
+from datetime import datetime
+import allure
+
+from pages.common import Common
+from pages.base_page import BasePage
+from pages.Elements.AssertClass import AssertClass
+from pages.Elements.testing_elements_locators import ContentBlockLocators, MobileTradingAppBlockLocators, \
+    WebTradingPlatformPageLocators
+from selenium.common.exceptions import ElementClickInterceptedException
+
+from test_data.page_web_trading_platform_data import page_data
+
+BUTTON_NAME = '[Platform overview]'
+BLOCK_NAME = '"Capital.com – mobile trading app."'
+BUTTON_LOCATOR = MobileTradingAppBlockLocators.MOBILE_TRADING_APP_BLOCK_PLATFORM_OVERVIEW_BUTTON
+BLOCK_LOCATOR = MobileTradingAppBlockLocators.MOBILE_TRADING_APP_BLOCK
+
+PAGE_WEB_TRADING_PLATFORM_URL = "https://capital.com/online-trading-platform"
+PAGE_TITLE = "The Capital.com web trading platform | Capital.com"
+
+
+class PlatformOverviewButton(BasePage):
+    global BUTTON_NAME
+    global BLOCK_NAME
+    global BUTTON_LOCATOR
+    global BLOCK_LOCATOR
+
+    global PAGE_WEB_TRADING_PLATFORM_URL
+    global PAGE_TITLE
+
+    def __init__(self, browser, link, bid):
+        self.button_platform_overview = None
+
+        super().__init__(browser, link, bid)
+
+    @allure.step(f"{datetime.now()}   Start Full test for {BUTTON_NAME} button in {BLOCK_NAME} block")
+    def full_test(self, d, cur_language, cur_country, cur_role, link):
+        self.arrange_(d)
+        self.element_click(d)
+
+        element = AssertClass(d, self.bid)
+        match cur_role:
+            case "NoReg" | "NoAuth" | "Auth":
+                element.assert_that_trading_page_is_opened(d)
+
+    def arrange_(self, link):
+        print(f"\n{datetime.now()}   1. Arrange_v0")
+
+        if not self.current_page_is(link):
+            self.link = InvestmateApp.URL
+            self.open_page()
+
+        # Check that present and visible block
+        print(f"{datetime.now()}   IS {BLOCK_NAME} block present on this page? =>")
+        block_mobile_trading_app = self.driver.find_elements(*BLOCK_LOCATOR)
+        if len(block_mobile_trading_app) == 0:
+            msg = f"{BLOCK_NAME} block is NOT present on this page"
+            print(f"{datetime.now()}   => {msg}\n")
+            Common().pytest_fail(msg)
+        print(f"{datetime.now()}   => {BLOCK_NAME} block present on this page!\n")
+
+        self.driver.execute_script(
+            'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+            self.driver.find_elements(*BLOCK_LOCATOR)[0]
+        )
+
+        print(f"{datetime.now()}   IS {BLOCK_NAME} block visible on this page? =>")
+        if not self.element_is_visible(BLOCK_LOCATOR, 5):
+            msg = f"{BLOCK_NAME} block is NOT visible on this page!"
+            print(f"{datetime.now()}   => {msg}\n")
+            Common().pytest_fail(msg)
+        print(f"{datetime.now()}   => {BLOCK_NAME} block is visible on this page!\n")
+
+        # Check that present and visible button
+        print(f"{datetime.now()}   IS {BUTTON_NAME} button present on this page? =>")
+        self.button_platform_overview = self.driver.find_elements(*BUTTON_LOCATOR)
+        if len(self.button_platform_overview) == 0:
+            msg = f"{BUTTON_NAME} button is NOT present on this page"
+            print(f"{datetime.now()}   => {msg}\n")
+            Common().pytest_fail(msg)
+        print(f"{datetime.now()}   => {BUTTON_NAME} button present on this page!\n")
+
+        self.driver.execute_script(
+            'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+            self.driver.find_elements(*BUTTON_LOCATOR)[0]
+        )
+
+        print(f"{datetime.now()}   IS {BUTTON_NAME} button visible on this page? =>")
+        if not self.element_is_visible(BUTTON_LOCATOR, 5):
+            msg = f"{BUTTON_NAME} button is NOT visible on this page!"
+            print(f"{datetime.now()}   => {msg}\n")
+            Common().pytest_fail(msg)
+        print(f"{datetime.now()}   => {BUTTON_NAME} button is visible on this page!\n")
+
+        print(f"{datetime.now()}   {BUTTON_NAME} button scroll =>")
+        self.driver.execute_script(
+            'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+            self.button_platform_overview[0]
+        )
+
+    @allure.step(f"Click button {BUTTON_NAME} on {BLOCK_NAME} block")
+    def element_click(self, d):
+        print(f"\n{datetime.now()}   2. Act_v0")
+
+        print(f"{datetime.now()}   {BUTTON_NAME} button is clickable? =>")
+        time_out = 5
+        self.button_platform_overview = self.driver.find_elements(*BUTTON_LOCATOR)
+        if not self.element_is_clickable(self.button_platform_overview[0], time_out):
+            msg = f"{BUTTON_NAME} button is not clickable after {time_out} sec. Stop AT>"
+            print(f"{datetime.now()}   => {msg}\n")
+            Common().pytest_fail(msg)
+        print(f"{datetime.now()}   => {BUTTON_NAME} button is clickable!\n")
+
+        try:
+            self.button_platform_overview[0].click()
+            print(f"{datetime.now()}   => {BUTTON_NAME} button clicked!")
+        except ElementClickInterceptedException:
+            print(f"{datetime.now()}   => {BUTTON_NAME} button NOT CLICKED"
+                  'Bug#029. '
+                  'Expected result:The Desktop Trading page is opened '
+                  '\n'
+                  'Actual result: The Home page is opened ')
+
+        del self.button_platform_overview
+        # return False
