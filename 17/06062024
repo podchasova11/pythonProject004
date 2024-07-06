@@ -3,6 +3,7 @@
     @pytest.mark.parametrize('cur_country', ['gb'])
     @pytest.mark.parametrize('cur_role', ["NoReg", "Auth", "NoAuth"])
     @pytest.mark.test_029
+
     def test_027(self, worker_id, d, cur_language, cur_country, cur_role, cur_login, cur_password):
         """
          Check: Icon In Item 'Trade CFDs on margin'
