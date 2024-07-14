@@ -1,4 +1,3 @@
-
 # Автоматическое преобразование типов
 from pydentic import BaseModel
 
