@@ -1,0 +1,3 @@
+
+# CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON = (By.CSS_SELECTOR, "div.wrap > main div > a[data-type='content_img_7_btn']")
+CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON = (By.CSS_SELECTOR, "main > section.cc-boxXl.dark > div > div > a")
