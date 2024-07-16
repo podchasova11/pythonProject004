@@ -1,0 +1,150 @@
+"""
+-*- coding: utf-8 -*-
+@Time    : 2024/07/10 11:00
+@Author  : podchasova11
+"""
+
+from datetime import datetime
+import pytest
+
+import allure
+
+import time
+
+from selenium.common import ElementClickInterceptedException
+
+from pages.Elements.testing_elements_locators import DemoTradingAccountPageLocators
+from pages.Trading_platform.trading_platform_locators import TopBarLocators
+from pages.base_page import BasePage
+from pages.common import Common
+from src.src import DemoTradingAccount
+from selenium.webdriver.support.ui import WebDriverWait as Wait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+
+from test_data.trading_platform_data import data
+
+
+class CreateARiskFreeDemoAccountButton(BasePage):
+
+    platform_url = ''
+    page_trading = None
+
+    def __init__(self, browser, link, bid):
+        self.search_btn = None
+
+        super().__init__(browser, link, bid)
+
+    def full_test(self, d, cur_language, cur_country, cur_role, link):
+        self.arrange(d)
+        self.element_click()
+
+        # test_element = AssertClass(d, self.bid)
+        match cur_role:
+            case "Auth":
+                self.assert_trading_platform_(self, d, demo=False)
+
+    def arrange(self, link):
+        print(f"\n{datetime.now()}   1. Arrange for CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON ")
+
+        if not self.current_page_is(link):
+            time.sleep(2)
+            self.link = DemoTradingAccount.URL
+            self.open_page()
+
+        print(f"{datetime.now()}   Is CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON present on the page? =>")
+        button = self.driver.find_element(DemoTradingAccountPageLocators.CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON)
+        if len(button) == 0:
+            print(f"{datetime.now()}   => CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON is not present on the page")
+            del button
+            return False
+            # pytest.fail("CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON is not present on the page")
+        print(f"{datetime.now()}   => CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON scroll =>")
+
+        self.driver.execute_script(
+            'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+            button[0]
+        )
+
+        print(f"{datetime.now()}   Is CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON clickable?  =>")
+        time_out = 5
+        if not self.element_is_clickable(button[0], 5):
+            print(f"{datetime.now()}   => CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON is not clickable after {time_out} sec")
+            pytest.fail("Bug ? CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON is not clickable")
+        print(f"{datetime.now()}   => CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON is clickable")
+
+    @allure.step("Click CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON in the page ")
+    def element_click(self):
+        print(f"{datetime.now()}   2. Act for CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON")
+        print(f"{datetime.now()}   Start to click CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON =>")
+
+        button = self.driver.find_elements(*DemoTradingAccountPageLocators.CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON)
+        try:
+            button[0].click()
+            print(f"{datetime.now()}   => CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON is clicked!")
+        except ElementClickInterceptedException:
+            print(f"{datetime.now()}   'CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON is clicked")
+
+            del button
+            return True
+
+    @allure.step('Checking that "Trading platform" page opened')
+    def assert_trading_platform_(self, d, demo):
+        print(f"\n{datetime.now()}   3. Assert_v0")
+        time_out = 1
+        platform_url = data["PLATFORM_URL"]
+        expected_title = data["PAGE_TITLE"]
+        if self.current_page_url_contain_the(platform_url, time_out):
+            print(f"{datetime.now()}   => Opened page with {self.driver.current_url} url. Expected: {platform_url} ")
+            print(f"\n{datetime.now()}"
+                  f"   1. Checking that the Trading platform page has valid title =>")
+            current_title = self.driver.title
+            Common().assert_true_false(
+                expected_title in current_title,
+                f"{datetime.now()}   "
+                f"=> Expected title '{expected_title}' but got '{current_title}' on page: {self.driver.current_url}\n"
+            )
+            print(f"{datetime.now()}   => The Trading platform page has expected title '{expected_title}'.\n")
+
+            if demo:
+                self.should_be_platform_demo_mode(self.driver, "")
+
+        else:
+            print(f"{datetime.now()}   => Loaded page {self.driver.current_url} with not {platform_url} url")
+            assert False, "Bug! The Trading platform page is not opened"
+
+    @allure.step(f"{datetime.now()}   Check if the trading platform opened in DEMO mode")
+    def should_be_platform_demo_mode(self, d, test_link):
+
+        """Check that Trading platform opened in Demo mode"""
+
+        print(f'\n{datetime.now()}   Click the button DEMO_MODE_ICON_SQUARE =>')
+        btn = Wait(self.driver, 5).until(EC.element_to_be_clickable(TopBarLocators.DEMO_MODE_ICON_SQUARE))
+        btn.click()
+        print(f'{datetime.now()}   => Done, dropdown menu has opened')
+
+        # чтобы проверить, что DEMO mode открыт, проверяется кнопка SWITCH_TO_LIVE в выпадающем меню,
+        # наличие этой кнопки говорит нам, что режим DEMO открыт и мы можем переключиться в режим LIVE
+        print(f"{datetime.now()}   Checking that the Trading platform opened in DEMO mode =>")
+        drop_down_menu = d.find_elements(*TopBarLocators.DEMO_MODE_BUTTON_SWITCH_TO_LIVE)
+        if len(drop_down_menu) == 0:
+            pytest.fail("Bug # The drop_down menu is not present on the page ")
+
+        self.driver.execute_script(
+            'return arguments[0].scrollIntoView({block: "center", inline: "nearest"});',
+            drop_down_menu[0]
+        )
+        time.sleep(1)
+        print(f"{datetime.now()}   The drop_down menu is  present on the page =>")
+
+        print(f"{datetime.now()}   Is visible button DEMO_MODE_BUTTON_SWITCH_TO_LIVE in drop_down menu ? =>")
+
+        if self.element_is_visible(TopBarLocators.DEMO_MODE_BUTTON_SWITCH_TO_LIVE, 5):
+            allure.attach(self.driver.get_screenshot_as_png(), "scr_qr", allure.attachment_type.PNG)
+            print(f"{datetime.now()}   => Button DEMO_MODE_BUTTON_SWITCH_TO_LIVE is visible on the page")
+        else:
+            print(f"{datetime.now()}   => Button DEMO_MODE_BUTTON_SWITCH_TO_LIVE is not visible on the page")
+            pytest.fail("Bug # 069. The trading platform page is not opened "
+                        "in [demo mode] after clicking on the [Create a risk-free demo account] button"
+                        "on the 'Demo account' page")
+
