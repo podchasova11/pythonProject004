@@ -1,0 +1,4 @@
+class DemoTradingAccountPageLocators:
+    CREATE_A_RISK_FREE_DEMO_ACCOUNT_BUTTON = (
+        By.CSS_SELECTOR,
+        "body > div.wrap > main > section.cc-boxXl.dark.cfdHeroNew.gridRTab.gCenter.gMdLg.js-AnalyticsVisible.js-constructorBlock > div.cfdHeroNew__content > div > a")
