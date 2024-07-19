@@ -1,0 +1,6 @@
+text.lower()
+text.upper()
+text.replace(",", "*")
+text.split(" ")
+text.strip()
+
