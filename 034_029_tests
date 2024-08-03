@@ -2,7 +2,6 @@ import pytest
 import allure
 from datetime import datetime
 
-
 from pages.BugsManual.bag_034 import ProfessionalMenuCheckFooter
 from pages.BugsManual.bug_029 import WebTradingPlatformPage
 from pages.Elements.PlatformOverviewButton import PlatformOverviewButton
