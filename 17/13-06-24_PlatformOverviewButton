@@ -77,16 +77,4 @@ class PlatformOverviewButton(BasePage):
             Common.pytest_fail("Bug ? BUTTON_MY_ACCOUNT is not clickable")
         print(f"{datetime.now()}   => BUTTON_MY_ACCOUNT is clickable")
 
-    @allure.step("Click My account button in the page header")
-    def element_click(self):
-        print(f"{datetime.now()}   2. Act for My account button")
-        print(f"{datetime.now()}   Start to click BUTTON_MY_ACCOUNT =>")
 
-        button = self.driver.find_elements(*MyAccountButtonLocators.BUTTON_MY_ACCOUNT)
-        button[0].click()
-
-        WebDriverWait(self.driver, 10).until(
-            EC.url_changes(self.driver.current_url)
-        )
-
-        print(f"{datetime.now()}   => BUTTON_MY_ACCOUNT is clicked")
