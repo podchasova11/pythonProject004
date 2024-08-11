@@ -1,36 +1,35 @@
-C:\>cd "Program files"
+C:\>cd "Programm files"
 C:\Program Files>cd MySQL
 C:\Program Files\MySQL>cd "MySQL Server 8.0"
 C:\Program Files\MySQL\MySQL Server 8.0>cd bin
 C:\Program Files\MySQL\MySQL Server 8.0\bin>mysql -u root -p
 Enter password: ****
 
-C:\>cd "Programm files"
-
 SHOW DATABASES;
 CREATE DATABASE sql_course;
 SHOW DATABASES;
 DROP DATABASE sql_course;
-SHOW DATABASES;
+SHOW DATABACES;
 CREATE DATABASE sql_course;
-SHOW DATABASES;
-USE sql_course;
+SOW DATABASES;
+USE sql_courses;
 show tables;
-
- CREATE TABLE teacher(
-    -> id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE teacher(
+    -> id int AUTO_INCREMENT PRIMARY KEY,
     -> surname VARCHAR(255) NOT NULL
     -> );
-	
 show tables;
-show columns FROM teacher;
+show columns FFROM teacher;
 
-CREATE TABLE lesson(
+
+CTEATE TABLE lesson(
     -> id INT AUTO_INCREMENT PRIMARY KEY,
     -> name VARCHAR(255) NOT NULL,
     -> teacher_id INT NOT NULL,
     -> FOREIGN KEY (teacher_id) references teacher(id)
     -> );
+show tables;
+
 	
 show tables;
 show columns from lesson;
