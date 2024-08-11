@@ -29,40 +29,39 @@ CTEATE TABLE lesson(
     -> FOREIGN KEY (teacher_id) references teacher(id)
     -> );
 show tables;
-
-	
-show tables;
 show columns from lesson;
+INSERT INTO teacher (surname) values ("Ivanov");
+INSERT INTO teacher (surmame) values ("Petrov");
+INSERT INTO teacher (surname) values ("Sidorov");
+INSERT INTO teacher(surname) values ("Chishov");
+INSERT INTO teacher (surname) values ("Petrov);
+INSERT INTO teacher (surname) values ("Sidorov");
+INSERT INTO teacher (surname) values ("Petrov);
 
-INSERT INTO teacher (surname) values ("Иванов");
-INSERT INTO teacher (surname) values ("Иванов");
-INSERT INTO teacher (surname) values ("Петров");
-INSERT INTO teacher (surname) values ("Сидоров");
-INSERT INTO teacher (surname) values ("Чижов");	
-INSERT INTO teacher (surname) values ("Петров");
-INSERT INTO teacher (surname) values ("Петров");
 
 SELECT * FROM teacher;
-
 SELECT id FROM teacher;
 SELECT id, surname FROM teacher;
-SELECT DISTINCT surname FROM teacher;
+SELECT DISTINCT surmame FROM teacher;
 SELECT * FROM teacher WHERE id = 1;
-SELECT * FROM teacher WHERE id = 3;
+SELECT * FROM teacher WHERE ID = 2;
+SELECT * FROM teacher WHERE id >= 2;
 SELECT * FROM teacher WHERE id > 3;
-
-SELECT * FROM teacher WHERE surname = "Петров";
-SELECT * FROM teacher WHERE surname = "Петров" LIMIT 2;
-SELECT * FROM teacher WHERE surname = "Петров" LIMIT 1;
+SELECT * FROM teacher WHERE surname = "Petrov" LIMIT 2;
+SELECT * FROM teacher WHERE surname = "Petrov" LIMIT 1;
 SELECT * FROM teacher LIMIT 5;
-
 SELECT id AS 'ИДЕНТИФИКАТОР', surname AS 'Фамилия' FROM teacher;
 
+######    ORDER BY # ORDER BY #  ORDER BY # ORDER BY ######
+
 SELECT * FROM teacher ORDER BY surname;
-SELECT * FROM teacher ORDER BY id
+SELECT * FROM teacher ORDER BY id;
 SELECT * FROM teacher ORDER BY id DESC;
 
+# ALTER TABLE     ALTER TABLE     ALTER TABLE    ALTER TABLE
+
 ALTER TABLE teacher ADD age INT;
+
 show columns from teacher;
 select * from teacher;
 
