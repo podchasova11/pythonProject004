@@ -193,4 +193,18 @@ class TestManualDetectedBugs:
         )
 
 
+        page_conditions = NewConditions(d, "")
+        link = page_conditions.preconditions(
+            d, CapitalComPageSrc.URL_NEW_AR_AE, "", cur_language, cur_country, cur_role, cur_login, cur_password)
 
+        # Arrange
+        button = ButtonMyAccount(d, link, bid)
+        button.arrange_(link)
+
+        # Act
+        button.element_click()
+
+        # Assert
+        match cur_role:
+            case "Auth":
+                button.assert_my_account_menu_opened_ar(d)
