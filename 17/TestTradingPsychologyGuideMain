@@ -1,4 +1,7 @@
-
+"""
+-*- coding: utf-8 -*-
+@Author  : Mila Podchasova
+"""
 import allure
 import pytest
 
