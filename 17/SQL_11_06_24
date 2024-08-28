@@ -7,11 +7,13 @@ Enter password: ****
 
 SHOW DATABASES;
 CREATE DATABASE sql_course;
+CREATE DATABASE table-1;
 SHOW DATABASES;
 DROP DATABASE sql_course;
+DROP DATABASE;
 SHOW DATABACES;
 CREATE DATABASE sql_course;
-SOW DATABASES;
+SHOW DATABASES;
 USE sql_courses;
 show tables;
 CREATE TABLE teacher(
