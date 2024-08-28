@@ -5,6 +5,7 @@
 import allure
 import pytest
 
+
 from pages.common import Common
 from pages.Education.Trading_psychology_guide_locators import TradingPsychologyContentList
 from pages.Menu.menu import MenuSection
@@ -17,7 +18,6 @@ from pages.Elements.BlockStepTrading import BlockStepTrading
 from src.src import CapitalComPageSrc
 
 count = 1
-
 
 @pytest.mark.us_11_03_08
 class TestTradingPsychologyGuideMain:
