@@ -6,11 +6,7 @@
 
 import pytest
 from pages.base_page import BasePage
-# from pages.common import Common
-# from pages.conditions import Conditions
-# from src.src import CapitalComPageSrc
-# from selenium.webdriver.support import expected_conditions as EC
-# from selenium.webdriver.support.wait import WebDriverWait
+
 
 
 # class USLink:
