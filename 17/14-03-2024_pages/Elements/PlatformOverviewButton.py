@@ -7,8 +7,6 @@
 import pytest
 from pages.base_page import BasePage
 
-
-
 # class USLink:
 #     user_story_menu_link = None
 #
