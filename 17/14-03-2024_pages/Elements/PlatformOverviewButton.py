@@ -5,10 +5,6 @@
 """
 
 import pytest
-# import allure
-#
-# from pages.Elements.AssertClass import AssertClass
-# from pages.Menu.menu import MenuSection
 from pages.base_page import BasePage
 # from pages.common import Common
 # from pages.conditions import Conditions
