@@ -7,22 +7,22 @@
 import pytest
 from pages.base_page import BasePage
 
-# class USLink:
-#     user_story_menu_link = None
-#
-#     def get_us_link(self, d, cur_language, cur_country, cur_role, cur_login, cur_password):
-#         if cur_language in ["de", "es", "fr", "it", "pl", "cn", "nl"]:
-#             pytest.skip(f"This test is not for {cur_language} language")
-#
-#         page_conditions = Conditions(d, "")
-#         main_link = page_conditions.preconditions(
-#             d, CapitalComPageSrc.URL, "", cur_language, cur_country, cur_role, cur_login, cur_password)
-#         if not self.user_story_menu_link:
-#             page_menu = MenuSection(d, main_link)
-#             page_menu.menu_education_move_focus(d, cur_language, cur_country)
-#             us_link = page_menu.sub_menu_investmate_app_move_focus_click(d, cur_language)
-#             self.user_story_menu_link = us_link
-#         return self.user_story_menu_link
+class USLink:
+    user_story_menu_link = None
+
+    def get_us_link(self, d, cur_language, cur_country, cur_role, cur_login, cur_password):
+        if cur_language in ["de", "es", "fr", "it", "pl", "cn", "nl"]:
+            pytest.skip(f"This test is not for {cur_language} language")
+
+        page_conditions = Conditions(d, "")
+        main_link = page_conditions.preconditions(
+            d, CapitalComPageSrc.URL, "", cur_language, cur_country, cur_role, cur_login, cur_password)
+        if not self.user_story_menu_link:
+            page_menu = MenuSection(d, main_link)
+            page_menu.menu_education_move_focus(d, cur_language, cur_country)
+            us_link = page_menu.sub_menu_investmate_app_move_focus_click(d, cur_language)
+            self.user_story_menu_link = us_link
+        return self.user_story_menu_link
 
 
 class PlatformOverviewButton(BasePage):
