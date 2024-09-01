@@ -651,3 +651,78 @@ upload_new_version:
     - if: '$CI_COMMIT_TAG'
 
 ```
+#### Пример 3.3. Основной .gitlab-ci.yml конфиг + дополнительный конфиг .gitlab-build-sample-template.yml
+
+```
+# Main config: ci-gitlab.yml
+image: gitlab.smartiqa.ru/4567/lib/test_utils/runner:latest
+
+stages:
+  - style_checks
+  - build_test_samples
+  - update_cases_statuses
+  - check_testrail_cases_duplicates
+
+flake8-check:
+  stage: style_checks
+  image: gitlab.smartiqa.ru:4567/lib/test_utils/runner:latest
+  allow_failure: false
+  script:
+    - flake8 ./ --show-source --config=./codestyle/flake8.cfg
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: always
+  tags:
+    - smartiqa-build
+
+include: .gitlab-build-sample-template.yml
+
+build-win10-x64:
+  variables:
+    VIRTUAL_MACHINE: "build_win10-x64"
+  extends: .gitlab_build_sample
+
+build-win10-x86:
+  variables:
+    VIRTUAL_MACHINE: "build_win10-x86"
+  extends: .gitlab_build_sample
+
+update_cases_statuses:
+  stage: update_cases_statuses
+  image: gitlab.smartiqa.ru:4567/lib/test_utils/runner:latest
+  script:
+    - ls
+    - export PROJECT_PATH=$(pwd)
+    - python3 scripts/update_testrail_cases_status.py
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+
+check_testrail_cases_duplicates:
+  stage: check_testrail_cases_duplicates
+  image: gitlab.smartiqa.ru:4567/lib/test_utils/runner:latest
+  allow_failure: false
+  script:
+    - ls
+    - export PROJECT_PATH=$(pwd)
+    - python3 scripts/check_duplicated_testrail_cases.py
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: always
+
+# Подключаемый конфиг .gitlab-build-sample-template.yml
+.gitlab_build_sample:
+  stage: build_test_samples
+  rules:
+    - if: $CI_COMMIT_BRANCH
+      changes:
+        paths:
+          - tests/sample/**/*
+          - tests/sample/**/**/*
+      when: manual
+  script:
+    - make build_test_samples
+  tags:
+    - smartiqa-build
+
+```
+
