@@ -613,3 +613,41 @@ OLDPWD  =  /opt/app
 _  =  /usr/bin/printenv
 
 ```
+#### Пример 3.2. Конфиг .gitlab-ci.yml
+
+```
+include:
+  - project: smartiqa-infra/ci-cd
+    file:
+      - templates-build.yml
+      - templates-upload.yml
+stages:
+  - build
+
+compile_go:
+  stage: build
+  extends: .build-binary-go-current
+  variables:
+    GOPRIVATE: "gitlab.smartiqa.ru/ax/dparser"
+    GIT_TERMINAL_PROMPT: "1"
+    GOSUMDB: "off"
+    GOOS: "windows"
+    GOARCH: "amd64"
+  script:
+    - go build -o dparser main.go
+    - ls
+  artifacts:
+    paths:
+      - dparser
+
+upload_new_version:
+  stage: .post
+  image: ${CI_REGISTRY}/smartiqa-infra/docker-images/common:curl
+  script:
+    - curl -XPUT -u dev_user:WHhW9GqNeNtw8ytft https://download.smartiqa.ru/parser/${CI_COMMIT_TAG}/dparser.exe --upload-file dparser
+    - sshpass -p <pwd> scp -o StrictHostKeyChecking=no dparser dev_user@172.18.11.4:parse\\dparser.exe
+    - curl --location --request POST 'https://smartiqa.ru/api/send/alert' --header 'Content-Type:application/json' -d '{"to":[], "body":"New dparser version:'${CI_COMMIT_TAG}'", "channelId":"C04FPKL3VUY"}'
+  rules:
+    - if: '$CI_COMMIT_TAG'
+
+```
