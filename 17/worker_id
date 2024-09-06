@@ -1,0 +1,53 @@
+self = <US_55-mila_podchasova_ReTestsManual_test.TestManualDetectedBugs object at 0x7f1200110800>
+worker_id = 'master'
+d = <selenium.webdriver.chrome.webdriver.WebDriver (session="1c562f560fca12a5e0792ab8be86fbd6")>
+cur_language = '', cur_country = 'ua', cur_role = 'Auth'
+cur_login = 'test001.miketar+1@gmail.com', cur_password = 'Qwer1234-!@#$'
+
+    @allure.step(
+        'Start retest manual TC_55!326 | The page "Oops, this help center no longer exists"'
+        ' is opened after clicking the link [Help Center] of the page "Contact us"')
+    @pytest.mark.parametrize('cur_language', [''])
+    @pytest.mark.parametrize('cur_country', random.sample(['de', 'ua', 'au'], 1))
+    @pytest.mark.parametrize('cur_role', ['Auth', 'NoAuth', 'NoReg'])
+    @pytest.mark.bug_326
+    def test_326(self, worker_id, d, cur_language, cur_country, cur_role,
+                  cur_login, cur_password):
+        """
+         Check: The page "Oops, this help center no longer exists"
+         is opened after clicking the link [Help Center] of the page "Contact us"
+         Language: All.
+         License: ASIC, CYSEC.
+         Role: NoReg | NoAuth | Auth
+         Author: podchasova11
+         """
+        bid = build_dynamic_arg_for_us_55(
+            d, worker_id, cur_language, cur_country, cur_role,
+            "55", "ReTests of Manual Detected Bugs",
+            "326",
+            "The page 'Oops, this help center no longer exists' "
+            "is opened after clicking the link [Help Center] of the page 'Contact us'",
+            False,
+            False
+        )
+    
+        # Arrange
+        page_conditions = Conditions(d)
+        link = page_conditions.preconditions(
+            d, CapitalComPageSrc.URL, "",
+            cur_language, cur_country, cur_role, cur_login, cur_password
+        )
+    
+        page_header_menu = MenuSection(d, link)
+        page_header_menu.move_focus_to_more_menu(d, cur_language, cur_country)
+        page_header_menu.sub_menu_help_and_support_move_focus_click(d, cur_language)
+    
+        test_el = Bug326(d, link, bid)
+    
+        # Act
+        test_el.click_help_center_link()
+    
+        # Assert
+>       test_el.should_be_help_center_page()
+
+tests/US_55_ReTestsManual/mila_podchasova/US_55-mila_podchasova_ReTestsManual_test.py:262: 
