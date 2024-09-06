@@ -1,8 +1,3 @@
-"""
--*- coding: utf-8 -*-
-@Time    : 2024/10/06 15:00
-@Author  : podchasova11
-"""
 
 import pytest
 from pages.base_page import BasePage
