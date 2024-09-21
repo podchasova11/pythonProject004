@@ -1,0 +1,46 @@
+#* Валидация списков
+from pydantic import BaseModel
+from pydantic import BaseModel, constr
+from typing import Annotated, Optional
+
+
+class ResponseListModel(BaseModel):
+    name: str
+    last_name: Annotated[str, constr(max_length=50)]
+    admin: Optional[bool] = None
+
+
+response = [
+    {
+        "name": "Aleksei",
+        "last_name": "Dobro",
+        "admin": True
+    },
+    {
+        "name": "Ivan",
+        "last_name": "Zlo"
+    },
+]
+
+
+model = ([ResponseListModel(**item) for item in response])
+
+
+# Ситуация 2
+# class MainModel(BaseModel):
+#     items: list[ResponseListModel]
+#
+# response = {
+#     "items": [
+#         {
+#             "name": "Aleksei",
+#             "last_name": "Dobro"
+#         },
+#         {
+#             "name": "Ivan",
+#             "last_name": "Zlo"
+#         },
+#     ]}
+#
+# model = MainModel(**response)
+# model.items[0].last_name
