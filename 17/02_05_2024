@@ -7,7 +7,8 @@
 import allure
 import pytest
 
-frompages.Elements.CFDCalculatorBlockTryFreeDemoButton import CFDCalculatorBlockTryFreeDemoButton
+from
+pages.Elements.CFDCalculatorBlockTryFreeDemoButton import CFDCalculatorBlockTryFreeDemoButton
 from pages.Elements.HeaderCFDCalculatorPageLoginButton import HeaderCFDCalculatorPageLoginButton
 from pages.Elements.HeaderCFDCalculatorPageSignUpButton import HeaderCFDCalculatorPageSignUpButton
 from pages.Elements.CFDCalculatorBlockSignUpButton import CFDCalculatorBlockSignUpButton
