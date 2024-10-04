@@ -29,7 +29,7 @@ class TestManualDetectedBugs:
          Check: The Trading platform overview page does not open when
          the button [Platform overview] is pressed on the "Investmate app" page
 
-         Author: podchasova11
+         podchasova11
          """
         bid = build_dynamic_arg_for_us_55(
             d, worker_id, cur_language, cur_country, cur_role,
