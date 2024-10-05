@@ -7,6 +7,7 @@ from filter import words_filter
 from conf import HEADERS
 
 
+
 """ Поисковы запрос на HH.Важно! Иногда hh добавляет в запрос параметр "&salary=",
 нужно убрать его иначе api не будет отдавать данные
 """
