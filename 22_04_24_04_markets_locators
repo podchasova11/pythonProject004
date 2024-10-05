@@ -2,4 +2,4 @@
 
 class BlockCFDCalculator:
     BUTTON_SIGNUP = (By.CSS_SELECTOR, "div.row-cont a[data-type='hp_banner_default1']")
-    BUTTON_TRY_FREE_DEMO = (By.CSS_SELECTOR, "div.row-cont a[data-type='hp_banner_demo_11']")
+
