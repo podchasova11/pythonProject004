@@ -2,7 +2,6 @@ import allure
 from config.docs import Documentation
 from tests.basetest import BaseTest
 
-
 class TestUsers(BaseTest):
 
 
