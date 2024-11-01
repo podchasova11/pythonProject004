@@ -9,7 +9,6 @@ class ResponseListModel(BaseModel):
     last_name: Annotated[str, constr(max_length=50)]
     admin: Optional[bool] = None
 
-
 response = [
     {
         "name": "Aleksei",
