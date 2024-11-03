@@ -1,4 +1,5 @@
     @allure.step("Checking that the trading platform page has opened - ver 4")
+
     def should_be_trading_platform_page_v4(self, d, test_link, tpd, tpi, trade_instrument):
         """
         Check if the trading platform page for the corresponding trade instrument is opened
