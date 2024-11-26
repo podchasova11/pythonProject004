@@ -4,7 +4,6 @@
 @Author  : podchasova
 """
 
-
 from datetime import datetime
 
 import allure
