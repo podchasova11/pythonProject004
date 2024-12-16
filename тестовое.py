@@ -788,3 +788,92 @@ def test_add_to_cart():
 if __name__ == "__main__":
     test_add_to_cart()
 
+# test number 7
+
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+
+# Определение селекторов
+FIRST_PRODUCT = (By.XPATH, "//a[contains(@data-name, 'Набор фильтров Topperr 1155 FSM 431')]")
+ADD_TO_CART_BUTTON = (By.XPATH, "//*[@id='elementTools']/div/div[1]/div[2]/div/a")
+CART_URL = "https://www.coxo.ru/personal/cart/"
+
+
+def click_element(driver, by, value):
+    """Функция для безопасного клика на элемент."""
+    element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((by, value)))
+    try:
+        element.click()  # Пробуем обычный клик
+    except Exception:
+        # Если не сработал, используем JavaScript
+        driver.execute_script("arguments[0].click();", element)
+
+
+def test_add_to_cart():
+    """Тест для проверки добавления товара в корзину на сайте Coxo."""
+
+    # Настройки для Chrome, включая размер окна
+    options = webdriver.ChromeOptions()
+    options.add_argument("--window-size=1920,1080")
+
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver.implicitly_wait(10)  # Установка неявного ожидания
+
+    try:
+        # 1. Перейти на сайт интернет-магазина
+        driver.get("https://www.coxo.ru/")
+
+        # 2. Принять куки, если возникает такое окно
+        try:
+            accept_cookies_button = WebDriverWait(driver, 5).until(
+                EC.element_to_be_clickable((By.XPATH, "//*[@id='UseCookieBtn']")))
+            accept_cookies_button.click()
+        except Exception as e:
+            print("Кнопка принятия куки не найдена или не доступна:", e)
+
+        # 3. Перейти в раздел каталога «Бытовая техника»
+        try:
+            category_button = WebDriverWait(driver, 5).until(
+                EC.element_to_be_clickable((By.XPATH, "//*[@id='catalogMenuHeading']")))
+            category_button.click()
+
+            # Ожидание и клик по подкатегории
+            subcategory_button = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, "//*[@id='leftMenu']/li[4]/a/span/span[2]")))
+            subcategory_button.click()
+        except Exception as e:
+            print("Не удалось перейти в раздел 'Бытовая техника':", e)
+            return  # Завершить выполнение, если раздел не найден
+
+        # 4. Добавить первый товар из списка в корзину
+        click_element(driver, *FIRST_PRODUCT) # //*[@id="right"]/h1
+
+        # Клик по кнопке "В корзину"
+        click_element(driver, *ADD_TO_CART_BUTTON)
+
+        # Дожидаемся уведомления об успешном добавлении товара (если оно есть)
+        # Не добавляю задержки для кликов, так как возможно уведомление можно получить через wait более явно.
+
+        # 5. Перейти на страницу корзины
+        driver.get(CART_URL)
+
+        # 6. Убедиться, что добавленный товар присутствует в корзине
+        cart_product_name = WebDriverWait(driver, 5).until(
+            EC.visibility_of_element_located((By.XPATH, '//*[@id="basketProductList"]/div[1]/div')))
+        cart_product_name_text = cart_product_name.text
+
+        # Проверка, что товар присутствует в корзине
+        # assert cart_product_name_text.title() in FIRST_PRODUCT[1], "Добавленный товар отсутствует в корзине или название некорректно."
+        assert "Набор фильтров Topperr 1155 FSM 431" in cart_product_name_text, "Добавленный товар отсутствует в корзине или название некорректно."
+
+    finally:
+        # Закрытие браузера после выполнения теста
+        driver.quit()
+
+
+if __name__ == "__main__":
+    test_add_to_cart()
