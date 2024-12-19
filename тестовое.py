@@ -2311,3 +2311,97 @@ def test_add_to_cart():
 
 if __name__ == "__main__":
     test_add_to_cart()
+
+# 7 test
+# Автоматизировать следующий сценарий:
+
+# 1.	Перейти на сайт интернет-магазина https://www.coxo.ru/ .
+# 2.	Перейти в раздел каталога «Бытовая техника».
+# 3.	Убедиться, что на первой странице отображается 60 элементов.
+# 4.	Перейти на вторую страницу.
+# 5.	Проверить, что URL изменился на ?page=2.
+# 6.	Убедиться, что на второй странице также отображается 60 элементов.
+
+
+# код для автоматизации тестирования интернет-магазина с использованием 
+библиотеки Selenium и фреймворка pytest. модифицируем
+код, чтобы он соответствовал всем шагам, перечисленным в задаче,
+включая проверку количества элементов на первой и второй страницах, изменение URL и так далее.
+
+# Вот обновленный код:
+
+import pytest
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait, Select
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+
+@pytest.fixture(scope="function")
+def driver():
+    # Настройки для Chrome
+    options = webdriver.ChromeOptions()
+    options.add_argument("--window-size=1920,1080")
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver.implicitly_wait(10)  # Установка неявного ожидания
+    yield driver
+    driver.quit()  # Закрытие браузера после выполнения теста
+
+def test_bytovaya_tehnika(driver):
+    """Тест для проверки наличия 60 элементов в разделе 'Бытовая техника' и навигации между страницами."""
+
+    # 1. Перейти на сайт интернет-магазина
+    driver.get("https://www.coxo.ru/")
+
+    # 2. Принять куки, если возникает такое окно
+    try:
+        accept_cookies_button = WebDriverWait(driver, 5).until(
+            EC.element_to_be_clickable((By.XPATH, "//*[@id='UseCookieBtn']")))
+        accept_cookies_button.click()
+    except Exception as e:
+        print("Кнопка принятия куки не найдена или не доступна:", e)
+
+    # 3. Перейти в раздел каталога «Бытовая техника»
+    category_button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//*[@id='catalogMenuHeading']")))
+    category_button.click()
+
+    # 4. Ожидание и клик по подкатегории
+    subcategory_button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//*[@id='leftMenu']/li[4]/a/span/span[2]")))
+    subcategory_button.click()
+
+    # 5. Поиск дропдауна с количеством элементов и создание объекта Select
+    dropdown_menu = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.XPATH, "//*[@id='selectCountElements']")))
+    select = Select(dropdown_menu)
+
+    # 6. Выбор опции "60" из выпадающего меню
+    select.select_by_visible_text("60")
+
+    # 7. Проверка наличия 60 элементов на первой странице
+    items_on_first_page = WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".item.product")))
+    assert len(items_on_first_page) == 60, f"Ожидалось 60 элементов, найдено {len(items_on_first_page)}"
+
+    # 8. Переход на вторую страницу
+    next_page_button = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, "//a[@href='?page=2']")))
+    next_page_button.click()
+
+    # 9. Проверка, что URL изменился на ?page=2
+    assert "?page=2" in driver.current_url, f"URL не изменился на ?page=2, текущий URL: {driver.current_url}"
+
+    # 10. Убедиться, что на второй странице также отображается 60 элементов
+    items_on_second_page = WebDriverWait(driver, 10).until(
+        EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".item.product")))
+    assert len(items_on_second_page) == 60, f"Ожидалось 60 элементов на второй странице, найдено {len(items_on_second_page)}"
+
+if __name__ == "__main__":
+    pytest.main()
+# Изменения и пояснения:
+# Убрана фикстура с тестовыми данными, так как мы проверяем количество элементов по факту, а не по конкретным селекторам.
+# Добавлены шаги для проверки наличия 60 элементов на первой и второй страницах.
+# Проверка изменения URL после перехода на вторую страницу.
+# Использован CSS селектор .item.product для поиска всех элементов продукции.
