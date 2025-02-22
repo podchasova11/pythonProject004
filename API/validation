@@ -1,4 +1,4 @@
-#* Валидация списков
+# Валидация списков
 from pydantic import BaseModel
 from pydantic import BaseModel, constr
 from typing import Annotated, Optional
