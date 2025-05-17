@@ -1,3 +1,40 @@
+
+    @allure.step("Click button [Create Account] on Main banner")
+    def element_click(self):
+        print(f"\n{datetime.now()}   2. Act_v0")
+        print(f"{datetime.now()}   Start Click button [Create Account] =>")
+        button_list = self.driver.find_elements(*MainBannerLocators.BUTTON_CREATE_ACCOUNT)
+
+        print(f"{datetime.now()}   BUTTON_CREATE_ACCOUNT is clickable? =>")
+        time_out = 3
+        if not self.element_is_clickable(button_list[0], time_out):
+            print(f"{datetime.now()}   => BUTTON_CREATE_ACCOUNT is not clickable after {time_out} sec. Stop TC>")
+            pytest.fail(f"BUTTON_CREATE_ACCOUNT is not clickable after {time_out} sec.")
+
+        print(f"{datetime.now()}   BUTTON_CREATE_ACCOUNT click =>")
+        try:
+            button_list[0].click()
+            print(f"{datetime.now()}   => BUTTON_CREATE_ACCOUNT clicked")
+        except ElementClickInterceptedException:
+            print(f"{datetime.now()}   => BUTTON_CREATE_ACCOUNT not clicked")
+            print(f"{datetime.now()}   'Signup' or 'Login' form is automatically opened")
+
+            page_ = SignupLogin(self.driver)
+            if page_.close_signup_form():
+                pass
+            elif page_.close_login_form():
+                pass
+            elif page_.close_signup_page():
+                pass
+            else:
+                page_.close_login_page()
+
+            del page_
+            button_list[0].click()
+
+        del button_list
+        return True
+
     @allure.step("Checking that the trading platform page has opened - ver 4")
 
     def should_be_trading_platform_page_v4(self, d, test_link, tpd, tpi, trade_instrument):
