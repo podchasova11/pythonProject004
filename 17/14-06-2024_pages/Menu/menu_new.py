@@ -1,4 +1,4 @@
-pages/Menu/menu_new.py
+# pages/Menu/menu_new.py
     
     @allure.step('Select Way_to_trade menu, Professional submenu, check that footer is displaed')
     def check_that_footer_displayed_on_professional_page(self, d, cur_language, cur_country, link):
