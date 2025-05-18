@@ -3,4 +3,10 @@ css_selectors for two buttons in block CFD Calculator pages/Markets/markets_loca
 
 class BlockCFDCalculator:
     BUTTON_SIGNUP = (By.CSS_SELECTOR, "div.row-cont a[data-type='hp_banner_default1']")
+css_selectors for two buttons in block CFD Calculator pages/Markets/markets_locators.py
+
+
+class BlockCFDCalculator:
+    BUTTON_SIGNUP = (By.CSS_SELECTOR, "div.row-cont a[data-type='hp_banner_default1
+
 
