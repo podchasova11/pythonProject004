@@ -1,0 +1,12 @@
+from pages.build_dynamic_arg import build_dynamic_arg_v4
+# import io
+from src.src import CapitalComPageSrc
+
+
+def if_retest_passed(d, bid):
+    allure.attach(
+        d.get_screenshot_as_png(),
+        name=f"Screenshot{datetime.now()}",
+        attachment_type=AttachmentType.PNG,
+    )
+    retest_table_fill(d, bid, '00', "", True, True)
