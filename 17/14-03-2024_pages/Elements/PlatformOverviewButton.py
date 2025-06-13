@@ -74,4 +74,6 @@ class PlatformOverviewButton(BasePage):
             EC.url_changes(self.driver.current_url)
         )
     
-        print(f"{datetime.now()}   => BUTTON_PLATFORM_OVERVIEW is clicked")
+        print(f"{datetime.now()}   => 
+    
+    BUTTON_PLATFORM_OVERVIEW is clicked")
