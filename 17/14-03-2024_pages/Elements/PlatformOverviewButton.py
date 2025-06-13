@@ -76,4 +76,5 @@ class PlatformOverviewButton(BasePage):
     
         print(f"{datetime.now()}   => 
     
+    
     BUTTON_PLATFORM_OVERVIEW is clicked")
