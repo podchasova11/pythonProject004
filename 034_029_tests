@@ -157,3 +157,18 @@ class TestManualDetectedBugs:
 
         menu = ProfessionalMenuCheckFooter(d, link, bid)
         menu.check_that_footer_displayed_on_professional_page(d, cur_language, cur_country, link)
+
+####
+def updateRangeValues(self, range, values):
+        data = [{
+            'range': range,
+            'values': values
+        }]
+        body = {
+            'valueInputOption': 'USER_ENTERED',
+            'data': data
+        }
+        result = self.service.spreadsheets().values().batchUpdate(spreadsheetId=self.SPREADSHEET_ID, body=body).execute()
+        print('{0} cells updated.'.format(result.get('totalUpdatedCells')))
+
+
