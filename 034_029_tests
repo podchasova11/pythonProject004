@@ -170,5 +170,21 @@ def updateRangeValues(self, range, values):
         }
         result = self.service.spreadsheets().values().batchUpdate(spreadsheetId=self.SPREADSHEET_ID, body=body).execute()
         print('{0} cells updated.'.format(result.get('totalUpdatedCells')))
+        # pytest.skip("Autotest under construction")
+
+        Common().check_language_in_list_and_skip_if_not_present(cur_language, [''])
+        Common().check_country_in_list_and_skip_if_not_present(cur_country, ['gb'])
+
+        page_conditions = NewConditions(d, "")
+        link = page_conditions.preconditions(
+            d, CapitalComPageSrc.URL_NEW, "", cur_language, cur_country, cur_role, cur_login, cur_password)
+
+        menu = MenuSection(d, link)
+        link = menu.open_ways_to_trade_professional_menu(d, cur_language, cur_country, link)
+        # menu = WaysToTradeProfessional(d, link, bid)
+        # menu.check_that_footer_displayed_on_professional_page(d, cur_language, cur_country, link)
+
+        menu = ProfessionalMenuCheckFooter(d, link, bid)
+        menu.check_that_footer_displayed_on_professional_page(d, cur_language, cur_country, link)
 
 
