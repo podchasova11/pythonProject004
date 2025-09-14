@@ -69,4 +69,56 @@ else:
 ####################################################
 
 
+Ниже разбор по задаче и исправления там, где это нужно.
+
+
+Задача 4 - Нахождение самого частого элемента в списке
+Код:
+```python
+def most_frequent(nums: list):
+    return max(nums, key=nums.count)
+
+nums = [1, 4, 5, 6, 7, 1, 6, 6]
+print(most_frequent(nums), " встречается: ", nums.count(most_frequent(nums)))
+```
+
+Проблемы и улучшения:
+1) Вызов функции most_frequent(nums) повторяется дважды внутри print. Это приводит к повторному подсчёту и может вернуть разный результат только если список изменится (он не изменится в рамках одного вызова, но всё равно неэффективно). Лучшая практика — сохранить результат в переменную.
+
+2) Если список пустой, max упадет с исключением ValueError. Можно добавить предохранитель.
+
+3) По стилю и читаемости можно использовать collections.Counter, который проще и понятнее для нахождения наиболее частого элемента.
+
+Исправленный и более надёжный вариант с использованием Counter:
+```python
+from collections import Counter
+
+def most_frequent(nums):
+    if not nums:
+        return None  # или raise ValueError("Список пуст")
+    counts = Counter(nums)
+    # вернём элемент с наибольшей частотой; если нужно, можно вернуть несколько элементов
+    most_common_item, freq = counts.most_common(1)[0]
+    return most_common_item, freq
+
+nums = [1, 4, 5, 6, 7, 1, 6, 6]
+result = most_frequent(nums)
+print(result[0], "встречается:", result[1])
+```
+
+Если сохранить стиль исходного кода и без Counter:
+```python
+def most_frequent(nums):
+    if not nums:
+        return None
+    most = max(nums, key=nums.count)
+    return most
+
+nums = [1, 4, 5, 6, 7, 1, 6, 6]
+most = most_frequent(nums)
+print(most, "встречается:", nums.count(most))
+```
+
+Итого:
+- Задача 4: текущий вариант работает для непустого списка, но можно улучшить читаемость и избежать повторного подсчета, предпочтительно через Counter или сохранение результата в переменную.
 
